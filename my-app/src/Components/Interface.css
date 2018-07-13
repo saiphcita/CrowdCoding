@@ -1,0 +1,35 @@
+.Bar {
+  text-align: left;
+}
+
+.Bar-header {
+  background-color: black;
+  height: 15px;
+  padding: 10px;
+  color: white;
+}
+
+.Email {
+  display: inline;
+  position: relative;
+}
+
+.ButtonLogOut {
+  display: inline;
+  position: relative;
+  left: 74%;
+}
+
+.Aside {
+  background-color: gray;
+  float: left;
+  height: 600px;
+  width: 10%;
+  color: white;
+}
+
+
+.DivPC {
+  background-color: #FFFACD;
+
+}
