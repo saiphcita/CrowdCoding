@@ -1,15 +1,11 @@
-.Bar {
+.Bar-header {
+  background-color: #333333;
+  padding: 10px;
+  color: white;
   text-align: left;
 }
 
-.Bar-header {
-  background-color: black;
-  height: 15px;
-  padding: 10px;
-  color: white;
-}
-
-.Email {
+.Emailside {
   display: inline;
   position: relative;
 }
@@ -20,16 +16,56 @@
   left: 74%;
 }
 
-.Aside {
-  background-color: gray;
+
+.aside {
+  background-color: #007acc;
   float: left;
-  height: 600px;
-  width: 10%;
-  color: white;
+  height: 591px;
+  width: 15%;
+  color: black;
+}
+
+.listCategory {
+  height: 400px;
+}
+
+.eachLI {
+  height: 10%;
+  margin: 10px 0px;
+}
+
+.definition {
+  position: absolute;
+  background-color: #ffffcc;
 }
 
 
-.DivPC {
-  background-color: #FFFACD;
 
+
+
+.list12 {
+  display: table-row;
+}
+
+.columm12 {
+  display: table-cell;
+  padding: 0px 0px;
+}
+
+.row12 {
+  padding: 8px 0px;
+  border-bottom: 1px solid;
+  border-left: 1px solid;
+  text-align: left;
+  margin: auto;
+  width: auto;
+  height: auto;
+  padding: 10px;
+}
+
+.table12 {
+  margin: auto;
+  margin-top: 3%;
+  border: 1px solid;
+  display: table;
 }
