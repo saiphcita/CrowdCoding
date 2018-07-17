@@ -49,7 +49,7 @@ class AsideBar extends Component {
                   Socavas el horizonte con tu ausencia. 
                   Eternamente en fuga como la ola. 
                   He dicho que cantabas en el viento 
-                  como los pinos y como los mástiles.
+                  como los pinos y como los mástiles.sdfsdfsdfsdfgit
             </div>
         </Collapse>
       <p>Show the definition of the categories.</p>
