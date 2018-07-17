@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Collapse, Button} from 'reactstrap';
 import './Interface-worker.css';
+
+
 const PossibleCategorys = require('./category.json');
 
 let PossiblePosts = [
@@ -9,6 +11,7 @@ let PossiblePosts = [
   "d hendrerit. Nunc quis pharetra metusasdasdasdasd. ",
   "Cras ultricies nisl odio, vitae gravida loremasdasdasdasdasd ",
   "consectetur egestas. Morbi semper elementum blandit. ",
+  "Suspendisse dignissim ligula libero, eu sodales dolor",
   "Suspendisse dignissim ligula libero, eu sodales dolor"
 ]
 
