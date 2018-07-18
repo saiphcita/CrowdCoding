@@ -43,25 +43,19 @@ class AsideBar extends Component {
         <Collapse isOpen={this.state.collapse} className="collapseEstilo">
             <Button color="primary" onClick={this.toggle} className="buttonBack">Go Back</Button>
             <div className="DivDefinition">
-                  Para mi corazón basta tu pecho, 
-                  p ara tu libertad bastan mis alas. 
-                  Desde mi boca llegará hasta el cielo 
-                  lo que estaba dormido sobre tu alma. 
-                  Es en ti la ilusión de cada día. 
-                  Llegas como el rocío a las corolas. 
-                  Socavas el horizonte con tu ausencia. 
-                  Eternamente en fuga como la ola. 
-                  He dicho que cantabas en el viento 
-                  como los pinos y como los mástiles.sdfsdfsdfsdfgit
+              <ul className="listDefiniton">
+                <li className="tittleList">Category</li>
+                {PossibleCategorys.map(i => {return <li>{i.categoryName}</li>})}
+              </ul>
+              <ul className="listDefiniton">
+                <li className="tittleList">Definition</li>
+                {PossibleCategorys.map(i => {return <li>{i.categoryDefinition}</li>})}
+              </ul>
             </div>
         </Collapse>
-      <p>Show the definition of the categories.</p>
       <div>
+      <p>Show the definition of the categories.</p>
       <Button color="primary" onClick={this.toggle} style={{ marginBottom: '1rem' }}>Show</Button>
-      </div>
-
-      <div className="listCategory">
-        {PossibleCategorys.map(i => {return<li className="eachLI">{i.categoryName}</li>})}
       </div>
     </div>
     );
@@ -71,29 +65,24 @@ class AsideBar extends Component {
 function PostAndCategory(props) {
   return (
     <div>
-      <Button color="secondary" className="sectionPost" disabled>Post</Button>
       <Button outline color="success" className="buttonSave">Save Changes</Button>
-      <div className="table12">
-        <div className="list12">
-
-          <div className="columm12">
-            {PossiblePosts.map(i => {
-              return <div className="row12">{i}</div>
-            })}
-          </div>
-
-          <div className="columm12">
-            {PossiblePosts.map(i => {
-              return <div>
-                        <select className="row12">
-                          <option selected value="defect">Select Category</option>
-                          {PossibleCategorys.map(i => {return<option value="defect">{i.categoryName}</option>})}
-                        </select>
-                      </div>
-            })}
-          </div>
+      <div className="DivPostCategory">
+            <ul className="listPC">
+            <li className="tittleListPC">Post</li>
+            {PossiblePosts.map(i => {return <li>{i}</li>})}
+            </ul>
+            <ul className="listPC">
+            <li className="tittleListPC">Category</li>
+            {PossiblePosts.map(i => { 
+                return <li>
+                            <select>
+                            <option selected value="defect">Select Category</option>
+                            {PossibleCategorys.map(i => {return<option value="defect">{i.categoryName}</option>})}
+                            </select>
+                        </li>
+                })}
+            </ul>
         </div>
-      </div>
     </div>
   );
 }

@@ -34,13 +34,6 @@
   color: black;
   height: 100%;
 }
-.listCategory {
-  height: auto;
-  background-color: #007acc;
-}
-.eachLI {
-  margin: 20px;
-}
 
 .collapseEstilo {
   position: absolute;
@@ -54,13 +47,28 @@
   height: auto;
   background-color: white;
 }
+
+
 .DivDefinition {
-  position: relative;
-  border: 1px solid;
-  margin: 3px  10px 0px 5px;
-  float: left;
+  display: inline-flex;
   height: auto;
+  margin: 0 8% 0 12%;
+}
+.listDefiniton {
+  margin: 0 0 5% 0;
+  padding: 0;
+  background-color: aliceblue;  
+}
+.listDefiniton li {
+  text-align: left;
+  display: block;
+  padding: 8px 5px 8px 10px;
+  border: 1px solid rgba(0,0,0,.125);
+}
+.tittleList {
+  font-size: 1.3rem;
   background-color: white;
+  border-bottom: 1px solid black;
 }
 
 
@@ -72,33 +80,38 @@
 }
 .sectionPost {
   margin: 5px  0px 5px 35px;
-  position: relative;
   float: left;
-  height: auto;
-  background-color: white;
-  width: 805px;
+  height: 38px;
+  background-color: gray;
+  width: 732px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: .30rem;
 }
 
-.table12 {
-  margin: auto;
-  margin-top: 2%;
-  display: table;
-  width: 80%;
+
+
+.DivPostCategory {
+  display: inline-flex;
   height: auto;
+  margin: 3% 4% 0 5%;
 }
-.list12 {
-  display: table-row;
-  height: 100%;
+.listPC {
+  margin: 0 0 5% 0;
+  padding: 0;
 }
-.columm12 {
-  display: table-cell;
-  height: 100%;
-}
-.row12 {
-  border: 1px solid;
+.listPC li {
   text-align: left;
-  height: auto;
-  width: 100%;
-  padding: 10px;
-  line-height: 1.45;
+  display: block;
+  padding: 8px 5px 8px 10px;
+  border: 1px solid rgba(0,0,0,.125);
 }
+.tittleListPC {
+  font-size: 1.3rem;
+  background-color: white;
+  border-bottom: 1px solid black;
+}
+
+
