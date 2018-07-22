@@ -92,14 +92,13 @@
 }
 
 
-
 .DivPostCategory {
   display: inline-flex;
   height: auto;
   margin: 3% 4% 0 5%;
 }
 .listPC {
-  margin: 0 0 5% 0;
+  margin: 0 0 0 0;
   padding: 0;
 }
 .listPC li {
@@ -108,10 +107,14 @@
   padding: 8px 5px 8px 10px;
   border: 1px solid rgba(0,0,0,.125);
 }
+.listPC select {
+  border: 0px solid;
+  font-size: 0.9rem;
+  background-color: white;
+  color: black;
+}
 .tittleListPC {
   font-size: 1.3rem;
   background-color: white;
   border-bottom: 1px solid black;
 }
-
-
