@@ -72,30 +72,21 @@
 }
 
 
+
+
 .buttonSave {
   margin: 5px  35px 5px 0px;
   float: right;
   height: auto;
   background-color: white;
 }
-.sectionPost {
-  margin: 5px  0px 5px 35px;
-  float: left;
-  height: 38px;
-  background-color: gray;
-  width: 732px;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: .30rem;
-}
-
 
 .DivPostCategory {
+  float: left;
   display: inline-flex;
   height: auto;
-  margin: 3% 4% 0 5%;
+  margin: 1% 0 0 1%;
+  width: 83%;
 }
 .listPC {
   margin: 0 0 0 0;

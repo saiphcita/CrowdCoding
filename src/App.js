@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import WorkerPage from './Components/Interface-worker';
+import WorkerPage from './Components/Interface-investigator.js';
 
 
 class App extends Component {
