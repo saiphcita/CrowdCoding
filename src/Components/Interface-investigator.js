@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { Collapse, Button} from 'reactstrap';
 import './Interface-investigator.css';
-
-
-
 import firebase from 'firebase';
 import 'firebase/database';
+
 
 const config = {
   apiKey: "AIzaSyCqVjqpMNZ4k46WtiyFMx1G88yBNS-d-7M",
@@ -15,12 +13,13 @@ const config = {
   storageBucket: "crow-codding.appspot.com",
   messagingSenderId: "1022422549646"
 };
-
 const app = firebase.initializeApp(config);
-const db = app.database().ref()
+const db = app.database()
 
-const PossibleCategorys = require('./category.json');
-const PossiblePosts = require('./post.json')
+// Get a database reference to our posts -- Aqui estan los JSON de los post y las categorias
+var refPost = db.ref("0/Post");
+var refCategory = db.ref("1/Category");
+
 
 function EmailBar (props){
     return (
@@ -33,11 +32,20 @@ function EmailBar (props){
 
 
 class AsideBar extends Component {
-
   constructor(props) {
     super(props);
     this.toggle = this.toggle.bind(this);
-    this.state = { collapse: false };
+    this.state = { 
+      collapse: false,
+      category: [],
+    };
+  }
+
+  componentDidMount() {
+     refCategory.on("value", (snapshot) => {
+      let category = snapshot.val();
+      this.setState({category : category})
+    });
   }
 
   toggle() {
@@ -52,11 +60,11 @@ class AsideBar extends Component {
             <div className="DivDefinition">
               <ul className="listDefiniton">
                 <li className="tittleList">Category</li>
-                {PossibleCategorys.map(i => {return <li>{i.categoryName}</li>})}
+                {this.state.category.map(i => {return <li>{i.categoryName}</li>})}
               </ul>
               <ul className="listDefiniton">
                 <li className="tittleList">Definition</li>
-                {PossibleCategorys.map(i => {return <li>{i.categoryDefinition}</li>})}
+                {this.state.category.map(i => {return <li>{i.categoryDefinition}</li>})}
               </ul>
             </div>
         </Collapse>
@@ -73,6 +81,8 @@ class PostAndCategory extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      posts: [],
+      category: [],
       newItem: "",
       list: []
     };
@@ -87,6 +97,17 @@ class PostAndCategory extends Component {
       "beforeunload",
       this.saveStateToLocalStorage.bind(this)
     );
+
+    //Guardando los JSON en el state
+    refPost.on("value", (snapshot) => {
+      let posts = snapshot.val();
+      this.setState({posts : posts})
+    });
+
+    refCategory.on("value", (snapshot) => {
+      let category = snapshot.val();
+      this.setState({category : category})
+    });
   }
 
   componentWillUnmount() {
@@ -150,6 +171,7 @@ class PostAndCategory extends Component {
       list,
       newItem: ""
     });
+
   }
 
   deleteItem(id) {
@@ -163,11 +185,13 @@ class PostAndCategory extends Component {
 
   PushToJSONAndDeleteAllItem() {
     this.state.list.map(i => {
-      const myObj = {"Post":i.value}
-      PossiblePosts.push(myObj)
+      const myObj = i.value
+      this.state.posts.push(myObj)
+      refPost.set(this.state.posts)
     })
     this.setState({ list: [] });
   }
+
   render() {
     return (
       <div>
@@ -212,15 +236,15 @@ class PostAndCategory extends Component {
         <div className="DivPostCategory">
               <ul className="listPC">
               <li className="tittleListPC">Post</li>
-              {PossiblePosts[0].Post.map(i => {return <li>{i}</li>})}
+              {this.state.posts.map(i => {return <li>{i}</li>})}
               </ul>
               <ul className="listPC">
               <li className="tittleListPC">Category</li>
-              {PossiblePosts[0].Post.map(i => { 
+              {this.state.posts.map(i => { 
                   return <li>
                               <select>
-                              <option selected value="defect">Select Category</option>
-                              {PossibleCategorys.map(i => {return<option value="defect">{i.categoryName}</option>})}
+                              <option  value="select">Select Category</option>
+                              {this.state.category.map(i => {return<option value={i.categoryName}>{i.categoryName}</option>})}
                               </select> 
                           </li>
                   })}
