@@ -4,16 +4,16 @@ import './Interface-investigator.css';
 import firebase from 'firebase';
 import 'firebase/database';
 
-
 const config = {
-  apiKey: "AIzaSyCqVjqpMNZ4k46WtiyFMx1G88yBNS-d-7M",
-  authDomain: "crow-codding.firebaseapp.com",
-  databaseURL: "https://crow-codding.firebaseio.com",
-  projectId: "crow-codding",
-  storageBucket: "crow-codding.appspot.com",
-  messagingSenderId: "1022422549646"
+  apiKey: "AIzaSyAYStRsZqUp9u5d6uJE2qXEa1A_0QsilWk",
+  authDomain: "crowd-codding.firebaseapp.com",
+  databaseURL: "https://crowd-codding.firebaseio.com",
+  projectId: "crowd-codding",
+  storageBucket: "",
+  messagingSenderId: "852929625643"
 };
 const app = firebase.initializeApp(config);
+
 const db = app.database()
 
 // Get a database reference to our posts -- Aqui estan los JSON de los post y las categorias

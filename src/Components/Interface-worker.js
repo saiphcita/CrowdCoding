@@ -1,10 +1,26 @@
 import React, { Component } from 'react';
 import { Collapse, Button} from 'reactstrap';
 import './Interface-worker.css';
+import firebase from 'firebase/app';
+import 'firebase/database';
 
+const config = {
+  apiKey: "AIzaSyCqVjqpMNZ4k46WtiyFMx1G88yBNS-d-7M",
+  authDomain: "crow-codding.firebaseapp.com",
+  databaseURL: "https://crow-codding.firebaseio.com",
+  projectId: "crow-codding",
+  storageBucket: "crow-codding.appspot.com",
+  messagingSenderId: "1022422549646"
+};
+const app = firebase.initializeApp(config);
+const db = app.database()
 
-const PossibleCategorys = require('./category.json');
-const PossiblePosts = require('./post.json')
+// Get a database reference to our posts -- Aqui estan los JSON de los post y las categorias
+
+//var refGeneralPosts = db.ref("0/0/Post");
+var refGeneralCategory = db.ref("0/General/1/Category");
+var refUserPost = db.ref("1/Users/1/AvailablePosts");
+var refUserCategory = db.ref("1/Users/2/AvailableCategory");
 
 
 function EmailBar (props){
@@ -18,11 +34,20 @@ function EmailBar (props){
 
 
 class AsideBar extends Component {
-
   constructor(props) {
     super(props);
     this.toggle = this.toggle.bind(this);
-    this.state = { collapse: false };
+    this.state = { 
+      collapse: false,
+      category: [],
+    };
+  }
+
+  componentDidMount() {
+    refGeneralCategory.on("value", (snapshot) => {
+      let category = snapshot.val();
+      this.setState({category : category})
+    });
   }
 
   toggle() {
@@ -37,11 +62,11 @@ class AsideBar extends Component {
             <div className="DivDefinition">
               <ul className="listDefiniton">
                 <li className="tittleList">Category</li>
-                {PossibleCategorys.map(i => {return <li>{i.categoryName}</li>})}
+                {this.state.category.map(i => {return <li key={i.categoryName}>{i.categoryName}</li>})}
               </ul>
               <ul className="listDefiniton">
                 <li className="tittleList">Definition</li>
-                {PossibleCategorys.map(i => {return <li>{i.categoryDefinition}</li>})}
+                {this.state.category.map(i => {return <li key={i.categoryName}>{i.categoryDefinition}</li>})}
               </ul>
             </div>
         </Collapse>
@@ -54,118 +79,93 @@ class AsideBar extends Component {
   }
 }
 
+
+
+
 class PostAndCategory extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      newItem: "",
-      list: []
+      posts: []
     };
   }
 
   componentDidMount() {
-    this.hydrateStateWithLocalStorage();
-
-    // add event listener to save state to localStorage
-    // when user leaves/refreshes the page
-    window.addEventListener(
-      "beforeunload",
-      this.saveStateToLocalStorage.bind(this)
-    );
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener(
-      "beforeunload",
-      this.saveStateToLocalStorage.bind(this)
-    );
-
-    // saves if component has a chance to unmount
-    this.saveStateToLocalStorage();
-  }
-
-  hydrateStateWithLocalStorage() {
-    // for all items in state
-    for (let key in this.state) {
-      // if the key exists in localStorage
-      if (localStorage.hasOwnProperty(key)) {
-        // get the key's value from localStorage
-        let value = localStorage.getItem(key);
-
-        // parse the localStorage string and setState
-        try {
-          value = JSON.parse(value);
-          this.setState({ [key]: value });
-        } catch (e) {
-          // handle empty string
-          this.setState({ [key]: value });
-        }
-      }
-    }
-  }
-
-  saveStateToLocalStorage() {
-    // for every item in React state
-    for (let key in this.state) {
-      // save to localStorage
-      localStorage.setItem(key, JSON.stringify(this.state[key]));
-    }
-  }
-
-  updateInput(key, value) {
-    // update react state
-    this.setState({ [key]: value });
-  }
-
-  addItem() {
-    // create a new item with unique id
-    const newItem = {
-      id: 1 + Math.random(),
-      value: this.state.newItem.slice()
-    };
-
-    // copy current list of items
-    const list = [...this.state.list];
-
-    // add the new item to the list
-    list.push(newItem);
-
-    // update state with new list, reset the new item input
-    this.setState({
-      list,
-      newItem: ""
+    //Guardando los JSON en el state
+    refUserPost.on("value", (snapshot) => {
+      let posts = snapshot.val();
+      this.setState({posts : posts})
     });
   }
 
-  deleteItem(id) {
-    // copy current list of items
-    const list = [...this.state.list];
-    // filter out the item being deleted
-    const updatedList = list.filter(item => item.id !== id);
-
-    this.setState({ list: updatedList });
-  }
   render() {
     return (
       <div>
-        <Button outline color="success" className="buttonSave">Save Changes</Button>
         <div className="DivPostCategory">
               <ul className="listPC">
-              <li className="tittleListPC">Post</li>
-              {PossiblePosts.map(i => {return <li>{i.Post}</li>})}
-              </ul>
-              <ul className="listPC">
-              <li className="tittleListPC">Category</li>
-              {PossiblePosts.map(i => { 
-                  return <li>
-                              <select>
-                              <option selected value="defect">Select Category</option>
-                              {PossibleCategorys.map(i => {return<option value="defect">{i.categoryName}</option>})}
-                              </select>
-                          </li>
+                <li className="tittleListPC">Post</li>
+                  {this.state.posts.map((val, i) => {
+                    return <li key={i}>{val.post}</li>
                   })}
               </ul>
+              <ul className="listPC">
+                <li className="tittleListPC">Category</li>
+                  {this.state.posts.map((val, i) => { 
+                    return <li key={i}>
+                        <SelectCategory id={i} categoryValue={val.category}/>
+                      </li>
+                    })}
+              </ul>
         </div>
+      </div>
+    );
+  }
+}
+
+class SelectCategory extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      category: [],
+      post: [],
+      value: this.props.categoryValue,
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  componentDidMount() {
+    refUserCategory.on("value", (snapshot) => {
+      let category = snapshot.val();
+      this.setState({category : category})
+    });
+    refUserPost.on("value", (snapshot) => {
+      let posts = snapshot.val();
+      this.setState({post : posts})
+   });
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  saveChange(){
+    let newPost = this.state.post;
+    newPost[this.props.id].category = this.state.value
+    this.setState({post: newPost});
+    refUserPost.set(this.state.post)
+  }
+
+  render() {
+    return (
+      <div>
+        <select id={this.props.id} value={this.state.value} onChange={this.handleChange}>
+          {this.state.category.map((val, i) => {
+            return <option key={i} value={i}>
+              {val}
+            </option>
+          })}
+        </select>
+        <button  className="buttonChange button1" onClick={()=>this.saveChange()} >Save</button>
       </div>
     );
   }

@@ -72,13 +72,30 @@
 }
 
 
-
-
-.buttonSave {
-  margin: 5px  35px 5px 0px;
-  float: right;
-  height: auto;
-  background-color: white;
+.buttonChange {
+  background-color: #4CAF50; /* Green */
+  padding: 0 2px;
+  margin: 0 0 0 4px;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  float: right;  
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+  line-height: auto;
+  font-size: 0.9rem;
+}
+.button1 {
+  background-color: white; 
+  color: black; 
+  border: 1.2px solid #4CAF50;
+  border-radius: 4px;
+}
+.button1:hover {
+  background-color: #4CAF50;
+  color: white;
 }
 
 .DivPostCategory {
@@ -97,6 +114,7 @@
   display: block;
   padding: 8px 5px 8px 10px;
   border: 1px solid rgba(0,0,0,.125);
+  max-width: 100%;
 }
 .listPC select {
   border: 0px solid;
