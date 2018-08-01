@@ -114,11 +114,11 @@ class PostAndCategory extends Component {
               <ul className="listPost">
                 <li className="tittleListPC">Post</li>
                   {this.state.posts.map((val, i) => {
-                    if(val.post.length > 120){
+                    if(val.post.length > 115){
                       return <li key={i}>
-                        {val.post.substring(0,120)}...<ModalExample post={val.post} ind={i+1}/>
+                        {val.post.substring(0,115)}...<ModalExample post={val.post} ind={i+1}/>
                       </li>
-                    }if(val.post.length <= 120){
+                    }if(val.post.length <= 115){
                       return <li key={i}>
                         {val.post}
                       </li>
