@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
 import { Collapse, Button} from 'reactstrap';
 import './Interface-worker.css';
+import ModalExample  from './modal.js'
 import firebase from 'firebase/app';
 import 'firebase/database';
 
 const config = {
-  apiKey: "AIzaSyCqVjqpMNZ4k46WtiyFMx1G88yBNS-d-7M",
-  authDomain: "crow-codding.firebaseapp.com",
-  databaseURL: "https://crow-codding.firebaseio.com",
-  projectId: "crow-codding",
-  storageBucket: "crow-codding.appspot.com",
-  messagingSenderId: "1022422549646"
+  apiKey: "AIzaSyAYStRsZqUp9u5d6uJE2qXEa1A_0QsilWk",
+  authDomain: "crowd-codding.firebaseapp.com",
+  databaseURL: "https://crowd-codding.firebaseio.com",
+  projectId: "crowd-codding",
+  storageBucket: "",
+  messagingSenderId: "852929625643"
 };
 const app = firebase.initializeApp(config);
 const db = app.database()
 
-// Get a database reference to our posts -- Aqui estan los JSON de los post y las categorias
+// Get a database refzerence to our posts -- Aqui estan los JSON de los post y las categorias
 
 //var refGeneralPosts = db.ref("0/0/Post");
 var refGeneralCategory = db.ref("0/General/1/Category");
@@ -62,16 +63,24 @@ class AsideBar extends Component {
             <div className="DivDefinition">
               <ul className="listDefiniton">
                 <li className="tittleList">Category</li>
-                {this.state.category.map(i => {return <li key={i.categoryName}>{i.categoryName}</li>})}
+                {this.state.category.map(i => {
+                  return <li key={i.categoryName}>
+                    {i.categoryName}
+                  </li>
+                })}
               </ul>
               <ul className="listDefiniton">
                 <li className="tittleList">Definition</li>
-                {this.state.category.map(i => {return <li key={i.categoryName}>{i.categoryDefinition}</li>})}
+                {this.state.category.map(i => {
+                  return <li key={i.categoryName}>
+                    {i.categoryDefinition}
+                  </li>
+                })}
               </ul>
             </div>
         </Collapse>
       <div>
-      <p>Show the definition of the categories.</p>
+      <div className="ShowTx">Show the definition of the categories.</div>
       <Button color="primary" onClick={this.toggle} style={{ marginBottom: '1rem' }}>Show</Button>
       </div>
     </div>
@@ -102,13 +111,21 @@ class PostAndCategory extends Component {
     return (
       <div>
         <div className="DivPostCategory">
-              <ul className="listPC">
+              <ul className="listPost">
                 <li className="tittleListPC">Post</li>
                   {this.state.posts.map((val, i) => {
-                    return <li key={i}>{val.post}</li>
+                    if(val.post.length > 120){
+                      return <li key={i}>
+                        {val.post.substring(0,120)}...<ModalExample post={val.post} ind={i+1}/>
+                      </li>
+                    }if(val.post.length <= 120){
+                      return <li key={i}>
+                        {val.post}
+                      </li>
+                    }
                   })}
               </ul>
-              <ul className="listPC">
+              <ul className="listCategory">
                 <li className="tittleListPC">Category</li>
                   {this.state.posts.map((val, i) => { 
                     return <li key={i}>
