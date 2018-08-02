@@ -89,31 +89,49 @@ class AsideBar extends Component {
 }
 
 
-
-
 class PostAndCategory extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      posts: []
+      post: [],
+      id: [],
+      value: [],
+      category: [],
     };
   }
 
   componentDidMount() {
-    //Guardando los JSON en el state
     refUserPost.on("value", (snapshot) => {
       let posts = snapshot.val();
-      this.setState({posts : posts})
+      this.setState({post : posts})
+      this.setState({id: posts.map((val, i) => {return i})})
+      this.setState({value: posts.map(val => {return val.category})})
+   });
+    refUserCategory.on("value", (snapshot) => {
+      let category = snapshot.val();
+      this.setState({category : category})
     });
   }
+
+
+  saveChange(){
+    let newPost = this.state.post;
+    for (let i = 0; i < newPost.length; i++) { 
+      newPost[i].category = this.state.value[i]
+    }
+    this.setState({post: newPost});
+    refUserPost.set(this.state.post)
+  }
+
 
   render() {
     return (
       <div>
+        <Button outline color="success" className="buttonSave" onClick={()=>this.saveChange()} >Save Changes</Button>
         <div className="DivPostCategory">
               <ul className="listPost">
                 <li className="tittleListPC">Post</li>
-                  {this.state.posts.map((val, i) => {
+                  {this.state.post.map((val, i) => {
                     if(val.post.length > 115){
                       return <li key={i}>
                         {val.post.substring(0,115)}...<ModalExample post={val.post} ind={i+1}/>
@@ -127,9 +145,18 @@ class PostAndCategory extends Component {
               </ul>
               <ul className="listCategory">
                 <li className="tittleListPC">Category</li>
-                  {this.state.posts.map((val, i) => { 
+                  {this.state.post.map((val, i) => { 
                     return <li key={i}>
-                        <SelectCategory id={i} categoryValue={val.category}/>
+                        <SelectCategory
+                        id={this.state.id[i]}
+                        listCategory={this.state.category}
+                        categoryValue={this.state.value[i]}
+                        handleChange={(event) =>{
+                          let newValue = this.state.value.slice();
+                          newValue[i] = event.target.value;
+                          this.setState({value: newValue});
+                        }}
+                        />
                       </li>
                     })}
               </ul>
@@ -140,53 +167,21 @@ class PostAndCategory extends Component {
 }
 
 class SelectCategory extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      category: [],
-      post: [],
-      value: this.props.categoryValue,
-    };
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  componentDidMount() {
-    refUserCategory.on("value", (snapshot) => {
-      let category = snapshot.val();
-      this.setState({category : category})
-    });
-    refUserPost.on("value", (snapshot) => {
-      let posts = snapshot.val();
-      this.setState({post : posts})
-   });
-  }
-
-  handleChange(event) {
-    this.setState({value: event.target.value});
-  }
-
-  saveChange(){
-    let newPost = this.state.post;
-    newPost[this.props.id].category = this.state.value
-    this.setState({post: newPost});
-    refUserPost.set(this.state.post)
-  }
-
   render() {
     return (
       <div>
-        <select id={this.props.id} value={this.state.value} onChange={this.handleChange}>
-          {this.state.category.map((val, i) => {
+        <select id={this.props.id} value={this.props.categoryValue} onChange={this.props.handleChange}>
+          {this.props.listCategory.map((val, i) => {
             return <option key={i} value={i}>
               {val}
             </option>
           })}
         </select>
-        <button  className="buttonChange button1" onClick={()=>this.saveChange()} >Save</button>
       </div>
     );
   }
 }
+
 
 function  WorkerPage (props) {
   return (
