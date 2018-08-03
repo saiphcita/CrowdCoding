@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Collapse, Button} from 'reactstrap';
 import './Interface-worker.css';
+import { Collapse, Button} from 'reactstrap';
 import ModalExample  from './modal.js'
 import firebase from 'firebase/app';
 import 'firebase/database';
@@ -94,7 +94,6 @@ class PostAndCategory extends Component {
     super(props);
     this.state = {
       post: [],
-      id: [],
       value: [],
       category: [],
     };
@@ -104,7 +103,6 @@ class PostAndCategory extends Component {
     refUserPost.on("value", (snapshot) => {
       let posts = snapshot.val();
       this.setState({post : posts})
-      this.setState({id: posts.map((val, i) => {return i})})
       this.setState({value: posts.map(val => {return val.category})})
    });
     refUserCategory.on("value", (snapshot) => {
@@ -127,7 +125,7 @@ class PostAndCategory extends Component {
   render() {
     return (
       <div>
-        <Button outline color="success" className="buttonSave" onClick={()=>this.saveChange()} >Save Changes</Button>
+        <Button outline color="success" className="buttonSave" onClick={()=>this.saveChange()}>Save Changes</Button>
         <div className="DivPostCategory">
               <ul className="listPost">
                 <li className="tittleListPC">Post</li>
@@ -136,7 +134,7 @@ class PostAndCategory extends Component {
                       return <li key={i}>
                         {val.post.substring(0,115)}...<ModalExample post={val.post} ind={i+1}/>
                       </li>
-                    }if(val.post.length <= 115){
+                    }else{
                       return <li key={i}>
                         {val.post}
                       </li>
@@ -148,7 +146,7 @@ class PostAndCategory extends Component {
                   {this.state.post.map((val, i) => { 
                     return <li key={i}>
                         <SelectCategory
-                        id={this.state.id[i]}
+                        id={i}
                         listCategory={this.state.category}
                         categoryValue={this.state.value[i]}
                         handleChange={(event) =>{
