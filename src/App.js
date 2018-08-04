@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import WorkerPage from './Components/Interface-worker.js';
+//import WorkerPage from './Components/Interface-worker.js';
 import StartInterface from './Components/Start-interface.js';
 
 
@@ -11,7 +11,7 @@ class App extends Component {
       <StartInterface />
       </div>
     );
-  }
-}
+  };
+};
 
 export default App;

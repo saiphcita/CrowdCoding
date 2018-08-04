@@ -1,6 +1,20 @@
 import React, { Component } from 'react';
 import './Start-interface.css';
 import {Form, FormGroup, Label, Input, Button} from 'reactstrap';
+import firebase from 'firebase/app';
+import 'firebase/database';
+
+const config = {
+    apiKey: "AIzaSyCqVjqpMNZ4k46WtiyFMx1G88yBNS-d-7M",
+    authDomain: "crow-codding.firebaseapp.com",
+    databaseURL: "https://crow-codding.firebaseio.com",
+    projectId: "crow-codding",
+    storageBucket: "crow-codding.appspot.com",
+    messagingSenderId: "1022422549646"
+};
+const app = firebase.initializeApp(config);
+const db = app.database()
+var refAllUsers = db.ref("0/AllUsers");
 
 
 class StartInterface  extends Component {
@@ -20,7 +34,6 @@ class StartInterface  extends Component {
         this.setState({color2: "#3C3B47"});
         this.setState({StatePage: this.state.LogIn});
     }
-
     ChangeToSingUp(){
         this.setState({color2: "#3BC079"});
         this.setState({color1: "#3C3B47"});
@@ -30,7 +43,7 @@ class StartInterface  extends Component {
     render(){
         return (
             <div className="DivBase ">
-                <h3>Welcom to...</h3>
+                <h3>Welcome to...</h3>
                 <div className="DivForm">
                     <div>
 
@@ -60,37 +73,49 @@ class LogIn extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            userV:'',
-            passwordV:'',
-            user: '',
-            password: '',
-            divUP: <div/>,
-            userExample: {user:"Senkar137", passowrd: "sionoraza"}
+            user: null,
+            password: null,
+            allUsers: [],
+            listUsers: [],
+            divErr: "",
           };
         this.handleChangeUser = this.handleChangeUser.bind(this);
         this.handleChangePassword = this.handleChangePassword.bind(this);
       };
     
     handleClick = (event) => {
-        event.preventDefault();
-        //this.setState({ user: this.state.userV });
-        //this.setState({ password: this.state.passwordV });
-
-        if(this.state.user !== "" && this.state.password !== ""){ 
-            return this.setState({ divUP: <div>User: {this.state.user} y su password: {this.state.password}</div> })                 
-        }
-      };
+        if(this.state.user !== null){
+            if(!this.state.listUsers.includes(this.state.user)){
+                this.setState({divErr: <div style={{color: "red"}}>Your Username doesn't exist*</div> })
+            }else{
+                let numberPassowrd = this.state.listUsers.indexOf(this.state.user)
+                if(this.state.password === null){
+                    this.setState({divErr: <div style={{color: "red"}}>Enter your password*</div> })
+                }else{
+                    if(this.state.allUsers[numberPassowrd].User.UserInfo.Password !== this.state.password){
+                        this.setState({divErr: <div style={{color: "red"}}>your password is wrong*</div> })
+                    }else{
+                        this.setState({divErr: <div style={{color: "green"}}>Hello there.</div> })
+                    }
+                };
+            };
+        };
+    };
     
+    componentDidMount(){
+        refAllUsers.on("value", (snapshot) => {
+            let AllUsers = snapshot.val();
+            this.setState({allUsers : AllUsers})
+            this.setState({listUsers: this.state.allUsers.map(val => {return val.User.UserInfo.Username})})
+          });
+    }
+
     handleChangeUser(e) {
-        this.setState({ userV: e.target.value });
         this.setState({ user: e.target.value });
       };
-
     handleChangePassword(e) {
-        this.setState({ passwordV: e.target.value });
         this.setState({ password: e.target.value });
     };
-
 
     render(){
         return (
@@ -100,7 +125,6 @@ class LogIn extends Component{
                     <FormGroup>
                         <Label for="exampleUser">User</Label>
                         <Input 
-                        value={this.state.userV}
                         onChange={this.handleChangeUser}  
                         type="user" 
                         name="user" 
@@ -112,7 +136,6 @@ class LogIn extends Component{
                     <FormGroup>
                         <Label for="examplePassword">Password</Label>
                         <Input
-                        value={this.state.passwordV}
                         onChange={this.handleChangePassword}  
                         type="password" 
                         name="password" 
@@ -123,20 +146,13 @@ class LogIn extends Component{
                          
                 </Form>
                 <Button color="success" onClick={this.handleClick}>Start</Button>
-                {this.state.divUP}
+                <div style={{display: "inline-block", float: "right"}}>{this.state.divErr}</div>
             </div> 
         );
     }
 }
 
-
-
-
-
-
-
 class SignUp extends Component{
-
     constructor(props) {
         super(props);
         this.state = {
@@ -145,9 +161,10 @@ class SignUp extends Component{
             user: null,
             password: null,
             confirmPassword: null,
-            userExample: [{user:"Senkar137", password: "hola"}, {user:"pac", password: "2323"}, {user:"juan", password: "222"}]
+            usersExamples: [{user:"Senkar137", password: "hola"}, {user:"pac", password: "2323"}, {user:"juan", password: "222"}],
+            userExample: [],
+            replyErr: ""
           };
-
           this.handleChangeName = this.handleChangeName.bind(this);
           this.handleChangeLastName = this.handleChangeLastName.bind(this);
           this.handleChangeUser = this.handleChangeUser.bind(this);
@@ -157,25 +174,23 @@ class SignUp extends Component{
     
     handleClick = (event) => {
         if(this.state.name === null || this.state.lastName === null || this.state.user === null || this.state.password === null || this.state.confirmPassword === null){
-            console.log("Debes llenar todos los CAMPOS")
+            this.setState({replyErr: "You must fill all the fields*"})
         }else{
-            for (let i = 0; i < this.state.userExample.length; i++) {
-                let userFound = false;
-                if(this.state.userExample[i].user === this.state.user){
-                    console.log("usuario existente")
-                    userFound = true;
-                }
-                if(userFound){
-                    return
-                }
-                if(this.state.password === this.state.confirmPassword){
-                    console.log("la contraseña coincide")
+            if(this.state.userExample.includes(this.state.user)){
+                this.setState({replyErr: "This username already exists*"})
+            }else{
+                if(this.state.password !== this.state.confirmPassword){
+                    this.setState({replyErr: "Your password doesn't match*"})
                 }else{
-                    console.log("tu contraseña NO coincide")
+                    this.setState({replyErr: <div style={{color: "green"}}>Welcome {this.state.name} {this.state.lastName}.</div>})
                 }
-              }
+            }
         }
-      };
+    };
+
+    componentDidMount(){
+        this.setState({userExample: this.state.usersExamples.map(val => {return val.user})})
+    }
     
     handleChangeName(e) {
         this.setState({ name: e.target.value });
@@ -192,8 +207,6 @@ class SignUp extends Component{
     handleChangeConfirmPassword(e) {
         this.setState({ confirmPassword: e.target.value });
     };
-
-
 
     render(){    
         return (
@@ -256,10 +269,10 @@ class SignUp extends Component{
 
                 </Form>
                 <Button style={{float: "right"}} color="success" onClick={this.handleClick}>Submit</Button>
+                <div className="replyErr">{this.state.replyErr}</div>
             </div> 
         );
-    }
-}   
-
+    };
+};
 
 export default StartInterface;

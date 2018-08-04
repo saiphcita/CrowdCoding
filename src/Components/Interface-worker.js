@@ -180,7 +180,6 @@ class SelectCategory extends Component {
   }
 }
 
-
 function  WorkerPage (props) {
   return (
       <div className="divAPC">
@@ -190,6 +189,5 @@ function  WorkerPage (props) {
       </div>
   );
 }
-
 
 export default WorkerPage;

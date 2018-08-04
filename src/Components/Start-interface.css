@@ -50,3 +50,7 @@
     color: white;
     text-align: left;
   }
+.replyErr{
+    display: inline-block;
+    color: red;
+}
