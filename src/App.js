@@ -1,17 +1,9 @@
-import React, { Component } from 'react';
+import React  from 'react';
 import './App.css';
-//import WorkerPage from './Components/Interface-worker.js';
-import StartInterface from './Components/Start-interface.js';
+import Routes from "./Routes"
 
-
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-      <StartInterface />
-      </div>
-    );
-  };
-};
+const App = () => (
+    <Routes/>
+);
 
 export default App;

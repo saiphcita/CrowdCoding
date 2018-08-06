@@ -1,21 +1,8 @@
 import React, { Component } from 'react';
 import './Start-interface.css';
 import {Form, FormGroup, Label, Input, Button} from 'reactstrap';
-import firebase from 'firebase/app';
-import 'firebase/database';
-
-const config = {
-    apiKey: "AIzaSyCqVjqpMNZ4k46WtiyFMx1G88yBNS-d-7M",
-    authDomain: "crow-codding.firebaseapp.com",
-    databaseURL: "https://crow-codding.firebaseio.com",
-    projectId: "crow-codding",
-    storageBucket: "crow-codding.appspot.com",
-    messagingSenderId: "1022422549646"
-};
-const app = firebase.initializeApp(config);
-const db = app.database()
-var refAllUsers = db.ref("0/AllUsers");
-
+import { Link } from 'react-router-dom';
+import { refAllUsers } from './DataBase.js'
 
 class StartInterface  extends Component {
     constructor(props) {
@@ -23,21 +10,30 @@ class StartInterface  extends Component {
         this.state = {
             color1: "#3BC079",
             color2: "#3C3B47",
-            LogIn: <LogIn/>,
-            SignUp: <SignUp/>,
-            StatePage: <LogIn/>
+            StatePage: null
         };
       }
+
+    componentDidMount(){
+        refAllUsers.on("value", (snapshot) => {
+            let AllUsers = snapshot.val();
+            let listOfUsers = AllUsers.map(val => {return val.User.UserInfo.Username})
+            this.setState({StatePage: <LogIn allUsers={AllUsers} listUsers={listOfUsers}/>})
+            this.setState({allUsers : AllUsers})
+            this.setState({listUsers: listOfUsers})
+        });
+    }
+
 
     ChangeToLogin(){
         this.setState({color1: "#3BC079"});
         this.setState({color2: "#3C3B47"});
-        this.setState({StatePage: this.state.LogIn});
+        this.setState({StatePage: <LogIn allUsers={this.state.allUsers} listUsers={this.state.listUsers}/>});
     }
     ChangeToSingUp(){
         this.setState({color2: "#3BC079"});
         this.setState({color1: "#3C3B47"});
-        this.setState({StatePage: this.state.SignUp});
+        this.setState({StatePage:<SignUp/>});
     }
 
     render(){
@@ -75,8 +71,8 @@ class LogIn extends Component{
         this.state = {
             user: null,
             password: null,
-            allUsers: [],
-            listUsers: [],
+            allUsers: this.props.allUsers,
+            listUsers: this.props.listUsers,
             divErr: "",
           };
         this.handleChangeUser = this.handleChangeUser.bind(this);
@@ -95,21 +91,13 @@ class LogIn extends Component{
                     if(this.state.allUsers[numberPassowrd].User.UserInfo.Password !== this.state.password){
                         this.setState({divErr: <div style={{color: "red"}}>your password is wrong*</div> })
                     }else{
-                        this.setState({divErr: <div style={{color: "green"}}>Hello there.</div> })
+                        this.setState({divErr: <div style={{color: "green"}}><Link to="/postAndcategory">Go to Post And Category</Link></div> })
                     }
                 };
             };
         };
     };
     
-    componentDidMount(){
-        refAllUsers.on("value", (snapshot) => {
-            let AllUsers = snapshot.val();
-            this.setState({allUsers : AllUsers})
-            this.setState({listUsers: this.state.allUsers.map(val => {return val.User.UserInfo.Username})})
-          });
-    }
-
     handleChangeUser(e) {
         this.setState({ user: e.target.value });
       };

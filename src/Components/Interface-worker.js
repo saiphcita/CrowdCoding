@@ -2,26 +2,8 @@ import React, { Component } from 'react';
 import './Interface-worker.css';
 import { Collapse, Button} from 'reactstrap';
 import ModalExample  from './modal.js'
-import firebase from 'firebase/app';
-import 'firebase/database';
 
-const config = {
-  apiKey: "AIzaSyAYStRsZqUp9u5d6uJE2qXEa1A_0QsilWk",
-  authDomain: "crowd-codding.firebaseapp.com",
-  databaseURL: "https://crowd-codding.firebaseio.com",
-  projectId: "crowd-codding",
-  storageBucket: "",
-  messagingSenderId: "852929625643"
-};
-const app = firebase.initializeApp(config);
-const db = app.database()
-
-// Get a database refzerence to our posts -- Aqui estan los JSON de los post y las categorias
-
-//var refGeneralPosts = db.ref("0/0/Post");
-var refGeneralCategory = db.ref("0/General/1/Category");
-var refUserPost = db.ref("1/Users/1/AvailablePosts");
-var refUserCategory = db.ref("1/Users/2/AvailableCategory");
+import { refGeneralCategory, refUserPost, refUserCategory } from './DataBase.js'
 
 
 function EmailBar (props){
@@ -79,9 +61,9 @@ class AsideBar extends Component {
               </ul>
             </div>
         </Collapse>
-      <div>
-      <div className="ShowTx">Show the definition of the categories.</div>
-      <Button color="primary" onClick={this.toggle} style={{ marginBottom: '1rem' }}>Show</Button>
+      <div className="ShowTx">
+      <div>Show the definition of the categories.</div>
+      <Button color="primary" onClick={this.toggle} style={{marginTop: "20px"}}>Show</Button>
       </div>
     </div>
     );
