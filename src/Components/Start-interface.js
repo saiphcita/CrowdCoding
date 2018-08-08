@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import './Start-interface.css';
 import {Form, FormGroup, Label, Input, Button} from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { refAllUsers } from './DataBase.js'
+import { refAllUsers, refGeneralPosts, refGeneralCategory } from './DataBase.js'
 
 class StartInterface  extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            color1: "#3BC079",
+            color1: "#3C3B47",
             color2: "#3C3B47",
-            StatePage: null
+            StatePage: <div className="divStatePage"><h2>Create a Username to enter the work page and if you already have it, you can login.</h2></div>
         };
       }
 
@@ -18,9 +18,19 @@ class StartInterface  extends Component {
         refAllUsers.on("value", (snapshot) => {
             let AllUsers = snapshot.val();
             let listOfUsers = AllUsers.map(val => {return val.User.UserInfo.Username})
-            this.setState({StatePage: <LogIn allUsers={AllUsers} listUsers={listOfUsers}/>})
             this.setState({allUsers : AllUsers})
             this.setState({listUsers: listOfUsers})
+        });
+        refGeneralPosts.on("value", (snapshot) => {
+            let posts = snapshot.val();
+            posts = posts.map(i => { return {"category": 0, "post": i }})
+            this.setState({posts : posts})
+        });
+        refGeneralCategory.on("value", (snapshot) => {
+            let categorys = snapshot.val();
+            categorys = categorys.map(i => i.categoryName)
+            categorys.unshift("Select Category")
+            this.setState({categorys : categorys})
         });
     }
 
@@ -33,13 +43,18 @@ class StartInterface  extends Component {
     ChangeToSingUp(){
         this.setState({color2: "#3BC079"});
         this.setState({color1: "#3C3B47"});
-        this.setState({StatePage:<SignUp/>});
+        this.setState({StatePage:<SignUp 
+                                    allUsers={this.state.allUsers} 
+                                    listUsers={this.state.listUsers} 
+                                    posts={this.state.posts}
+                                    categorys ={this.state.categorys}
+                                    />});
     }
 
     render(){
         return (
             <div className="DivBase ">
-                <h3>Welcome to...</h3>
+                <h3>Welcome to WokerPage</h3>
                 <div className="DivForm">
                     <div>
 
@@ -69,8 +84,8 @@ class LogIn extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            user: null,
-            password: null,
+            user: "",
+            password: "",
             allUsers: this.props.allUsers,
             listUsers: this.props.listUsers,
             divErr: "",
@@ -80,12 +95,12 @@ class LogIn extends Component{
       };
     
     handleClick = (event) => {
-        if(this.state.user !== null){
-            if(!this.state.listUsers.includes(this.state.user)){
+        if(this.state.user.length !== 0){
+            if(!this.state.listUsers.includes(this.state.user.toLowerCase())){
                 this.setState({divErr: <div style={{color: "red"}}>Your Username doesn't exist*</div> })
             }else{
-                let numberPassowrd = this.state.listUsers.indexOf(this.state.user)
-                if(this.state.password === null){
+                let numberPassowrd = this.state.listUsers.indexOf(this.state.user.toLowerCase())
+                if(this.state.password.length === 0){
                     this.setState({divErr: <div style={{color: "red"}}>Enter your password*</div> })
                 }else{
                     if(this.state.allUsers[numberPassowrd].User.UserInfo.Password !== this.state.password){
@@ -144,14 +159,14 @@ class SignUp extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            name: null,
-            lastName: null,
-            user: null,
-            password: null,
-            confirmPassword: null,
-            usersExamples: [{user:"Senkar137", password: "hola"}, {user:"pac", password: "2323"}, {user:"juan", password: "222"}],
-            userExample: [],
-            replyErr: ""
+            name: "",
+            lastName: "",
+            user: "",
+            password: "",
+            confirmPassword: "",
+            replyErr: null,
+            allUsers: this.props.allUsers,
+            listUsers: this.props.listUsers,
           };
           this.handleChangeName = this.handleChangeName.bind(this);
           this.handleChangeLastName = this.handleChangeLastName.bind(this);
@@ -161,24 +176,54 @@ class SignUp extends Component{
       };
     
     handleClick = (event) => {
-        if(this.state.name === null || this.state.lastName === null || this.state.user === null || this.state.password === null || this.state.confirmPassword === null){
+        if(this.state.name.length === 0 || this.state.lastName.length  === 0 || this.state.user.length === 0 || this.state.password.length === 0 || this.state.confirmPassword.length === 0){
             this.setState({replyErr: "You must fill all the fields*"})
         }else{
-            if(this.state.userExample.includes(this.state.user)){
+            if(this.state.listUsers.includes(this.state.user.toLowerCase())){
                 this.setState({replyErr: "This username already exists*"})
             }else{
                 if(this.state.password !== this.state.confirmPassword){
                     this.setState({replyErr: "Your password doesn't match*"})
                 }else{
-                    this.setState({replyErr: <div style={{color: "green"}}>Welcome {this.state.name} {this.state.lastName}.</div>})
+                    var named = this.state.name.charAt(0).toUpperCase()+this.state.name.slice(1).toLowerCase()
+                    var lastNamed = this.state.lastName.charAt(0).toUpperCase()+this.state.lastName.slice(1).toLowerCase()
+                    this.setState(
+                        {
+                            replyErr: <div style={{color: "green"}}>Welcome {named} {lastNamed}. Go to Log In and let's begin.</div>
+                        }
+                    )
+                    var usuarios = this.state.allUsers
+                    var NewUser = {
+                        "User": {
+                          "PostAndCategory": {
+                            "Category": [],
+                            "Post": []
+                          },
+                          "UserInfo": {
+                            "LastName": lastNamed,
+                            "Name": named,
+                            "Password": this.state.password,
+                            "Username": this.state.user.toLowerCase()
+                          }
+                        }
+                      };
+                      NewUser.User.PostAndCategory.Category = this.props.categorys
+                      NewUser.User.PostAndCategory.Post = this.props.posts
+                      usuarios.push(NewUser)
+                      this.setState({allUsers: usuarios})
+                      this.setState({listUsers: this.state.allUsers.map(val => {return val.User.UserInfo.Username})})
+                      //save the new user
+                      refAllUsers.set(this.state.allUsers)
+                      this.setState({ name: "" });
+                      this.setState({ lastName: "" });
+                      this.setState({ user: "" });
+                      this.setState({ password: "" });
+                      this.setState({ confirmPassword: "" });
+
                 }
             }
         }
     };
-
-    componentDidMount(){
-        this.setState({userExample: this.state.usersExamples.map(val => {return val.user})})
-    }
     
     handleChangeName(e) {
         this.setState({ name: e.target.value });
@@ -203,6 +248,7 @@ class SignUp extends Component{
                 <FormGroup>
                         <Label for="name" style={{margin: "0 12px 0 0"}}>Name</Label>
                         <Input
+                        value={this.state.name}
                         onChange={this.handleChangeName}   
                         type="name" 
                         name="name" 
@@ -212,6 +258,7 @@ class SignUp extends Component{
 
                         <Label for="lastName" style={{margin: "0 12px 0 30px"}}>Last Name</Label>
                         <Input
+                        value={this.state.lastName}
                         onChange={this.handleChangeLastName}
                         type="lastName" 
                         name="lastName" 
@@ -225,6 +272,7 @@ class SignUp extends Component{
                     <FormGroup>
                         <Label for="exampleUser">New User</Label>
                         <Input
+                        value={this.state.user}
                         onChange={this.handleChangeUser} 
                         type="user" 
                         name="user" 
@@ -236,6 +284,7 @@ class SignUp extends Component{
                     <FormGroup>
                         <Label for="examplePassword">New Password</Label>
                         <Input
+                        value={this.state.password}
                         onChange={this.handleChangePassword} 
                         type="password" 
                         name="password" 
@@ -247,6 +296,7 @@ class SignUp extends Component{
                     <FormGroup>
                         <Label for="examplePassword">Confirm Password</Label>
                         <Input
+                        value={this.state.confirmPassword}
                         onChange={this.handleChangeConfirmPassword}
                         type="password" 
                         name="password" 

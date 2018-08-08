@@ -10,6 +10,7 @@
     background-color: #211D4E;
     margin: 14px 0;
     height: 480px;
+    width: 750px;
     padding: 25px 30px 0 30px;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 
@@ -30,8 +31,9 @@
     color: white;
 }
 
-.TheForm{
-    background-color: white;
+.divStatePage { 
+    margin-top: 80px;
+    color: white;
 }
 
 
