@@ -13,13 +13,13 @@
   display: flex;
   justify-content: space-between;
 }
-.Emailside {
-  position: relative;
-}
-.ButtonLogOut {
-  position: relative;
-}
 
+.ButtonLogOut {
+  background-color: #666D6D;
+  color: black;
+  border-radius: 3px;
+  cursor: pointer;
+}
 
 .divAPC {
   height: 100%;

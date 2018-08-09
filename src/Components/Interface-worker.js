@@ -2,17 +2,37 @@ import React, { Component } from 'react';
 import './Interface-worker.css';
 import { Collapse, Button} from 'reactstrap';
 import ModalExample  from './modal.js'
+import { Link } from 'react-router-dom';
 
-import { refGeneralCategory, refUserPost, refUserCategory } from './DataBase.js'
+import { refGeneralCategory, dbUser, refAllUsers} from './DataBase.js'
 
 
-function EmailBar (props){
+class EmailBar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      listUsers: []
+    };
+  }
+
+  componentDidMount(){
+    refAllUsers.on("value", (snapshot) => {
+        let AllUsers = snapshot.val();
+        let listOfUsers = AllUsers.map(val => {return val.User.UserInfo.Username})
+        this.setState({listUsers: listOfUsers})
+    });
+  }
+
+  render(){
     return (
-        <header className="Bar-header">
-          <div className="Emailside">Here will be the EMAIL</div>
-          <div className="ButtonLogOut">Here will be the LOG OUT</div>      
-        </header> 
+      <header className="Bar-header">
+        <div >{this.state.listUsers[this.props.numberUser]}</div>
+        <Link to="/">
+        <div className="ButtonLogOut">Log Out</div>  
+        </Link>    
+      </header> 
     );
+  }
 }
 
 
@@ -82,6 +102,9 @@ class PostAndCategory extends Component {
   }
 
   componentDidMount() {
+    var refUserPost = dbUser.ref("Users/"+this.props.numberUser+"/User/PostAndCategory/Post");
+    var refUserCategory = dbUser.ref("Users/"+this.props.numberUser+"/User/PostAndCategory/Category");
+
     refUserPost.on("value", (snapshot) => {
       let posts = snapshot.val();
       this.setState({post : posts})
@@ -95,6 +118,7 @@ class PostAndCategory extends Component {
 
 
   saveChange(){
+    var refUserPost = dbUser.ref("Users/"+this.props.numberUser+"/User/PostAndCategory/Post");
     let newPost = this.state.post;
     for (let i = 0; i < newPost.length; i++) { 
       newPost[i].category = this.state.value[i]
@@ -165,9 +189,9 @@ class SelectCategory extends Component {
 function  WorkerPage (props) {
   return (
       <div className="divAPC">
-        <EmailBar/>
+        <EmailBar numberUser={props.user}/>
         <AsideBar/>
-        <PostAndCategory/>
+        <PostAndCategory numberUser={props.user}/>
       </div>
   );
 }

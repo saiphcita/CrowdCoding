@@ -17,10 +17,9 @@ var refGeneralPosts = db.ref("CategoryAndPost/Post");
 var refAllUsers = db.ref("Users");
 
 //example user
-var refUserPost = db.ref("Users/0/User/PostAndCategory/Post");
-var refUserCategory = db.ref("Users/0/User/PostAndCategory/Category");
+var dbUser = db
 
-export { refGeneralCategory, refGeneralPosts, refAllUsers, refUserPost, refUserCategory}
+export { refGeneralCategory, refGeneralPosts, refAllUsers, dbUser}
 
 
 // apiKey: "AIzaSyAYStRsZqUp9u5d6uJE2qXEa1A_0QsilWk",
