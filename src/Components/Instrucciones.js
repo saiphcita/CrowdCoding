@@ -33,7 +33,7 @@ class Instrucciones extends React.Component {
             <p>Estamos estudiando cómo se usaron las plataformas tecnológicas  después  del terremoto que sucedió en México el 19 de Septiembre de 2017.</p>
             <p>Te daremos una una hoja de cálculo donde está una lista de descripciones que nos dieron varias personas en una encuesta donde nos platican sobre su experiencia sobre el temblor y el uso de la tecnología.</p>
             <p>Cada renglón representa un comentario de una persona.</p>      
-            <p>Objetivo: categoriza cada comentario con alguna de las categorías.</p>
+            <p>Objetivo: categoriza cada comentario con alguna de las siguientes categorías.</p>
           </div>
 
           <div className="DivDefinition2">
