@@ -53,48 +53,71 @@
 
 
 .DivDefinition {
+  float: left;
   display: inline-flex;
+  width: 1300px;
   height: auto;
-  margin: 0 8% 0 12%;
+  margin: 18px 0 0 8px;
 }
 .listDefiniton {
-  margin: 0 0 5% 0;
+  margin: 0 0 0 0;
   padding: 0;
-  background-color: aliceblue;  
+  background-color: aliceblue;
 }
 .listDefiniton li {
   text-align: left;
   display: block;
-  padding: 8px 5px 8px 10px;
-  border: 1px solid rgba(0,0,0,.125);
+  height: 54px;
+  max-height: 54px;
+  padding: 2px 6px 2px 6px;
+  border: 1px solid rgba(0,0,0,.325);
 }
 .tittleList {
   font-size: 1.3rem;
   background-color: white;
   border-bottom: 1px solid black;
+  padding: 6px 5px 6px 6px !important;
+  height: auto !important;
 }
 
-
 .buttonSave {
-  margin: 1% 0 0 1%;
   float: left;
+  margin: 10px 0 0px 8px;
   height: auto;
   background-color: white;
 }
 
 .DivPostCategory {
-  float: left;
   display: inline-flex;
+  float: left;
+  margin: 10px 0 0px 8px;
   height: auto;
-  margin: 1% 0 0 1%;
-  width: 86%;
+  width: 1200px;
+  height: 464px;
+  max-height: 464px;
+  overflow: auto;
+  border: 1px solid rgba(0,0,0,.225);
 }
+/* NUMBER POST SECTION */
+.listNumberPost {
+  width: 40px;
+  padding: 0;
+  margin-bottom: 0;
+}
+.listNumberPost li {
+  text-align: center !important;
+  padding: 8px 0 !important;
+}
+
 .listPost {
   padding: 0;
-  width: 80%;
+  width: 930px;
+  max-width: 930px;
 }
 .listCategory {
   padding: 0;
+  width: 230px;
+  max-width: 230px;
 }
 .listCategory select {
   border: 0px solid;

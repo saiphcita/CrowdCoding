@@ -24,7 +24,7 @@ class ModalExample extends React.Component {
         <button color="info" onClick={this.toggle} className="buttonChange buttonShow">Show more</button>
         <Modal isOpen={this.state.modal} modalTransition={{ timeout: 350 }} backdropTransition={{ timeout: 1300 }}
           toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>Post Number {this.props.ind}</ModalHeader>
+          <ModalHeader toggle={this.toggle}>{this.props.ind}</ModalHeader>
           <ModalBody>
               {this.props.post}
           </ModalBody>

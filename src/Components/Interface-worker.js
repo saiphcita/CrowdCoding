@@ -73,9 +73,23 @@ class AsideBar extends Component {
               </ul>
               <ul className="listDefiniton">
                 <li className="tittleList">Definition</li>
+                {this.state.category.map(val => {
+                  if(val.categoryDefinition.length > 112){
+                    return <li key={val.categoryName}>
+                      {val.categoryDefinition.substring(0,112)}...<ModalExample post={val.categoryDefinition}/>
+                    </li>
+                  }else{
+                    return <li key={val.categoryName}>
+                      {val.categoryDefinition}
+                    </li>
+                  }
+                })}
+              </ul>
+              <ul className="listDefiniton">
+                <li className="tittleList">Example</li>
                 {this.state.category.map(i => {
                   return <li key={i.categoryName}>
-                    {i.categoryDefinition}
+                    {i.categoryExample}
                   </li>
                 })}
               </ul>
@@ -133,12 +147,19 @@ class PostAndCategory extends Component {
       <div>
         <Button outline color="success" className="buttonSave" onClick={()=>this.saveChange()}>Save Changes</Button>
         <div className="DivPostCategory">
+              {/* SECCION DEL NUMERO DE POSTS*/}
+              <ul className="listNumberPost" >
+                <li className="tittleListPC" style={{padding:"8px 5px 8px 3px"}}>No.</li>
+                  {this.state.post.map((val, i) => {
+                    return <li key={i}>{i+1}</li>
+                  })}
+              </ul>
               <ul className="listPost">
                 <li className="tittleListPC">Post</li>
                   {this.state.post.map((val, i) => {
-                    if(val.post.length > 115){
+                    if(val.post.length > 102){
                       return <li key={i}>
-                        {val.post.substring(0,115)}...<ModalExample post={val.post} ind={i+1}/>
+                        {val.post.substring(0,102)}...<ModalExample post={val.post} ind={"Post Number " + (i+1)}/>
                       </li>
                     }else{
                       return <li key={i}>
