@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import './Interface-worker.css';
 import { Collapse, Button} from 'reactstrap';
-import ModalExample  from './modal.js'
+import ModalExample  from './modal.js';
 import { Link } from 'react-router-dom';
-
+import Instrucciones  from './Instrucciones.js';
 import { refGeneralCategory, dbUser, refAllUsers} from './DataBase.js'
 
 
@@ -24,17 +24,9 @@ class EmailBar extends Component {
   }
 
   render(){
-    var divInstrucciones = <div>
-      <p>Estamos estudiando cómo se usaron las plataformas tecnológicas  después  del terremoto que sucedió en México el 19 de Septiembre de 2017.</p>
-      <p>Te daremos una una hoja de cálculo donde está una lista de descripciones que nos dieron varias personas en una encuesta donde nos platican sobre su experiencia sobre el temblor y el uso de la tecnología.</p>
-      <p>Cada renglón representa un comentario de una persona.</p>      
-      <p>Objetivo: categoriza cada comentario con alguna de las categorías.</p>
-    </div>
-
     return (
       <header className="Bar-header">
         <div >{this.state.listUsers[this.props.numberUser]}</div>
-        <ModalExample post={divInstrucciones} ind={"Instrucciones"} butN={"Instrucciones"}/>
         <Link to="/">
           <div className="ButtonLogOut">Log Out</div>  
         </Link>    
@@ -215,14 +207,28 @@ class SelectCategory extends Component {
   }
 }
 
-function  WorkerPage (props) {
-  return (
-      <div className="divAPC">
-        <EmailBar numberUser={props.user}/>
-        <AsideBar/>
-        <PostAndCategory numberUser={props.user}/>
-      </div>
-  );
+class WorkerPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      statePage: 0
+    };
+  }
+  changeState() {
+    this.setState({ statePage: 1 });
+  }
+  render() {
+    var Page = <div/>
+    if(this.state.statePage === 0){
+      Page = <Instrucciones button={<button onClick={this.changeState.bind(this)}>Entendido</button>}/>
+    }else if(this.state.statePage === 1){
+      Page = <div className="divAPC"><EmailBar numberUser={this.props.user}/><AsideBar/><PostAndCategory numberUser={this.props.user}/></div>
+    }
+
+    return (
+        Page
+    )
+  }
 }
 
 export default WorkerPage;
