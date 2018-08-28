@@ -24,11 +24,19 @@ class EmailBar extends Component {
   }
 
   render(){
+    var divInstrucciones = <div>
+      <p>Estamos estudiando cómo se usaron las plataformas tecnológicas  después  del terremoto que sucedió en México el 19 de Septiembre de 2017.</p>
+      <p>Te daremos una una hoja de cálculo donde está una lista de descripciones que nos dieron varias personas en una encuesta donde nos platican sobre su experiencia sobre el temblor y el uso de la tecnología.</p>
+      <p>Cada renglón representa un comentario de una persona.</p>      
+      <p>Objetivo: categoriza cada comentario con alguna de las categorías.</p>
+    </div>
+
     return (
       <header className="Bar-header">
         <div >{this.state.listUsers[this.props.numberUser]}</div>
+        <ModalExample post={divInstrucciones} ind={"Instrucciones"} butN={"Instrucciones"}/>
         <Link to="/">
-        <div className="ButtonLogOut">Log Out</div>  
+          <div className="ButtonLogOut">Log Out</div>  
         </Link>    
       </header> 
     );
@@ -76,7 +84,7 @@ class AsideBar extends Component {
                 {this.state.category.map(val => {
                   if(val.categoryDefinition.length > 112){
                     return <li key={val.categoryName}>
-                      {val.categoryDefinition.substring(0,112)}...<ModalExample post={val.categoryDefinition}/>
+                      {val.categoryDefinition.substring(0,112)}...<ModalExample post={val.categoryDefinition} ind={val.categoryName} butN={"Show More"}/>
                     </li>
                   }else{
                     return <li key={val.categoryName}>
@@ -159,7 +167,7 @@ class PostAndCategory extends Component {
                   {this.state.post.map((val, i) => {
                     if(val.post.length > 102){
                       return <li key={i}>
-                        {val.post.substring(0,102)}...<ModalExample post={val.post} ind={"Post Number " + (i+1)}/>
+                        {val.post.substring(0,102)}...<ModalExample post={val.post} ind={"Post Number " + (i+1)} butN={"Show More"}/>
                       </li>
                     }else{
                       return <li key={i}>
