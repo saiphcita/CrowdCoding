@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import './Interface-worker.css';
 
 class ModalExample extends React.Component {
   constructor(props) {
@@ -8,7 +7,6 @@ class ModalExample extends React.Component {
     this.state = {
       modal: false
     };
-
     this.toggle = this.toggle.bind(this);
   }
 
@@ -20,11 +18,11 @@ class ModalExample extends React.Component {
 
   render() {
     return (
-      <div className="divShowMore">
-        <button color="info" onClick={this.toggle} className="buttonChange buttonShow">{this.props.butN}</button>
-        <Modal isOpen={this.state.modal} modalTransition={{ timeout: 20 }} backdropTransition={{ timeout: 700 }}
+      <div style={{display: "inline"}}>
+        <button onClick={this.toggle} className={this.props.styleB}>Show More</button>
+        <Modal isOpen={this.state.modal} modalTransition={{ timeout: 350 }} backdropTransition={{ timeout: 1300 }}
           toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>{this.props.ind}</ModalHeader>
+          <ModalHeader toggle={this.toggle}>Post Number {this.props.ind}</ModalHeader>
           <ModalBody>
               {this.props.post}
           </ModalBody>

@@ -12,33 +12,6 @@
   font-size: 1.1rem;
 }
 
-.DivDefinition2 {
-  display: inline-flex;
-  width: 1300px;
-  height: auto;
-  margin-bottom: 20px;
-}
-.listDefiniton2 {
-  margin: 0 0 0 0;
-  padding: 0;
-  background-color: aliceblue;
-}
-.listDefiniton2 li {
-  text-align: left;
-  display: block;
-  height: 54px;
-  max-height: 54px;
-  padding: 2px 6px 2px 6px;
-  border: 1px solid rgba(0,0,0,.325);
-}
-.tittleList2 {
-  font-size: 1.3rem;
-  background-color: white;
-  border-bottom: 1px solid black;
-  padding: 6px 5px 6px 6px !important;
-  height: auto !important;
-}
-
 .goButton button {
   background-color: #4CAF50; /* Green */
   border: none;
