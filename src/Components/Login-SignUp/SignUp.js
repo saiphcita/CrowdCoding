@@ -41,7 +41,8 @@ class SignUp extends Component{
                           "UserInfo": {
                             "Password": this.state.password,
                             "Username": this.state.user.toLowerCase()
-                          }
+                          },
+                          "UserState": "working"
                         }
                       };
                       NewUser.User.PostAndCategory.Category = this.props.categorys

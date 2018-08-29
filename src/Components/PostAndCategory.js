@@ -11,8 +11,8 @@ class PostAndCategory extends Component {
       value: [],
       category: [],
       listUsers: [],
-      finishJOB: false,
-      heightPC: "100%"
+      finishJobM: 0,
+      heightPC: "88%"
     };
   }
 
@@ -23,19 +23,11 @@ class PostAndCategory extends Component {
       let posts = snapshot.val();
       this.setState({post : posts})
       this.setState({value: posts.map(val => {return val.category})})
-      var arrayPost0 = []
-      for (let i = 0; i < posts.length; i++) { 
-        if(Number(posts[i].category) === 0){
-          arrayPost0.push(i)
-        }
-      }
-      if(arrayPost0.length === 0){
-        this.setState({finishJOB: true})
-        this.setState({heightPC: "85%"})
-      }else{
-        this.setState({finishJOB: false})
-        this.setState({heightPC: "100%"})
-      }
+      // var arrayxx = posts
+      // for (let i = 0; i < posts.length; i++) { 
+      //   arrayxx[i].category = 0;
+      // };
+      // refUserPost.set(arrayxx);
     });
     refUserCategory.on("value", (snapshot) => {
       let category = snapshot.val();
@@ -47,28 +39,51 @@ class PostAndCategory extends Component {
       let PostOfUser = AllUsers.map( val => val.User.PostAndCategory.Post)
       this.setState({PostOfUser: PostOfUser})
     });
+    const refUserFinish = dbUser.ref("Users/"+this.props.numberUser+"/User");
+    refUserFinish.on("value", (snapshot) => {
+      let userFs = snapshot.val();
+      this.setState({userFs: userFs})
+    });
   }
 
   finishWork() {
     const refUserFinish = dbUser.ref("Users/"+this.props.numberUser+"/User");
-    refUserFinish.on("value", (snapshot) => {
-      let user = snapshot.val();
+    var arrayPost0 = []
+    for (let i = 0; i < this.state.post.length; i++) { 
+      if(Number(this.state.post[i].category) === 0){
+        arrayPost0.push(i)
+      }
+    };
+    
+    if(arrayPost0.length === 0){
+      this.setState({finishJobM: 2})
+      this.setState({heightPC: "84%"})
+      let user = this.state.userFs
       user.UserState = "finished"
       refUserFinish.set(user);
-    });
-  }
+    }else{
+      this.setState({finishJobM: 1})
+      this.setState({heightPC: "84%"})
+      let user = this.state.userFs
+      user.UserState = "working"
+      refUserFinish.set(user);
+    }
+  };
 
 
   render() {
-    var unBoton = <div/>
-    if(this.state.finishJOB){
-      unBoton= <button onClick={this.finishWork.bind(this)} className="payButton">Finish Work</button>
-    }else{
-      unBoton= <div/>
+    var finishM = <div/>
+    if(this.state.finishJobM === 0){
+      finishM= <div/>
+    }else if(this.state.finishJobM === 1){
+      finishM= <div style={{height:"4%", backgroundColor:"#E82704", color:"white"}}>Aun no has Terminado de Categorizar los Comentarios.</div>
+    }else if(this.state.finishJobM === 2){
+      finishM= <div style={{height:"4%", backgroundColor:"#4ECB0F", color:"white"}}>Felicidades, ya has termiando tu Trabajo.</div>
     }
 
     return (
       <div style={{height:"92%", textAlign:"center"}}>
+        {finishM}
         <div className="DivPostCategory" style={{height:this.state.heightPC, maxHeight:this.state.heightPC}}>
           <div className="titleList">
             <li style={{width:"4%", maxWidth:"4%"}}>No.</li>
@@ -93,6 +108,8 @@ class PostAndCategory extends Component {
                       };
                       this.setState({post: newPost});
                       refUserPost.set(newPost);
+                      this.setState({finishJobM: 0})
+                      this.setState({heightPC: "88%"})
                     }}
                   />}
                 </li>
@@ -100,7 +117,7 @@ class PostAndCategory extends Component {
             )
           })}
         </div>
-        {unBoton}
+        <button onClick={this.finishWork.bind(this)} className="payButton">Terminar Trabajo</button>
       </div>
     );
   }
