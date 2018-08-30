@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './CSS/PostAndCategory.css';
 import SelectForCategory  from '../Components/Tools/SelectForCategory.js'
-import { dbUser, refAllUsers } from './Tools/DataBase.js'
+import { dbUser } from './Tools/DataBase.js'
 
 class PostAndCategory extends Component {
   constructor(props) {
@@ -10,7 +10,6 @@ class PostAndCategory extends Component {
       post: [],
       value: [],
       category: [],
-      listUsers: [],
       finishJobM: 0,
       heightPC: "88%"
     };
@@ -19,6 +18,7 @@ class PostAndCategory extends Component {
   componentDidMount() {
     const refUserPost = dbUser.ref("Users/"+this.props.numberUser+"/User/PostAndCategory/Post");
     const refUserCategory = dbUser.ref("Users/"+this.props.numberUser+"/User/PostAndCategory/Category");
+    
     refUserPost.on("value", (snapshot) => {
       let posts = snapshot.val();
       this.setState({post : posts})
@@ -32,12 +32,6 @@ class PostAndCategory extends Component {
     refUserCategory.on("value", (snapshot) => {
       let category = snapshot.val();
       this.setState({category : category})
-    });
-    refAllUsers.on("value", (snapshot) => {
-      let AllUsers = snapshot.val();
-      this.setState({listUsers: AllUsers})
-      let PostOfUser = AllUsers.map( val => val.User.PostAndCategory.Post)
-      this.setState({PostOfUser: PostOfUser})
     });
     const refUserFinish = dbUser.ref("Users/"+this.props.numberUser+"/User");
     refUserFinish.on("value", (snapshot) => {

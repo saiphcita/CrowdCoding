@@ -11,9 +11,9 @@ class StartInterface  extends Component {
         this.state = {
             color1: "#3C3B47",
             color2: "#3C3B47",
+            pageTimeLoad: false,
             StatePage: <div className="divStatePage"><h2>Create a Worker ID to enter the work page and if you already have it, you can login.</h2></div>,
-            listUsers: [],
-            pageTimeLoad: false
+            listUsers: []
         };
       }
 
@@ -81,12 +81,12 @@ class StartInterface  extends Component {
                             </div>
                         </div>
         }else{
-            pageLoad = <div style={{color: "white"}}>loading...</div>
+            pageLoad = <div style={{color:"white"}}>loading...</div>
         }
 
         return (
-            <div className="DivBase ">
-                <h3>Welcome to WokerPage</h3>
+            <div style={{textAlign:"center", height:"100%", backgroundColor:"#F2F4F4"}}>
+                <h3 style={{paddingTop:"18px"}}>Welcome to WokerPage</h3>
                 <div className="DivForm">
                     {pageLoad}
                     {this.state.StatePage}

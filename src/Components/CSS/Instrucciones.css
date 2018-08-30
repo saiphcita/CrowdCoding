@@ -1,24 +1,17 @@
-.DivInstrucciones{
-  text-align: center;
-}
 .ListInstruccion{
   width: 100%;
-  text-align: center;
 }
 .ListInstruccion p{
-  width: 943px;
-  text-align: center;
-  margin: 20px auto;
+  width: 900px;
+  margin: 12px auto;
   font-size: 1.1rem;
 }
-
 .goButton button {
   background-color: #4CAF50; /* Green */
   border: none;
   color: white;
   padding: 16px 32px;
   text-align: center;
-  text-decoration: none;
   display: inline-block;
   font-size: 16px;
   margin: 4px 2px;
@@ -26,7 +19,6 @@
   transition-duration: 0.4s;
   cursor: pointer;
 }
-
 .goButton button:hover {
   background-color: white;
   color: #4CAF50;
