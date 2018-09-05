@@ -10,8 +10,9 @@ class PostAndCategory extends Component {
       post: [],
       value: [],
       category: [],
-      finishJobM: 0,
-      heightPC: "88%"
+      heightPC: "88%",
+      finishJob: false,
+      messageFinish: <div/>
     };
   }
 
@@ -38,59 +39,45 @@ class PostAndCategory extends Component {
     refUserFinish.on("value", (snapshot) => {
       let userFs = snapshot.val();
       this.setState({userFs: userFs})
-      //cartel constante felicitandolo
-      if(userFs.UserState === "finished"){ 
-        this.setState({fJob: true})
-        this.setState({heightPC: "82%"})
-      }else{ 
-        this.setState({fJob: false}) 
+      if(userFs.UserState === "finished"){
+        this.setState({finishJob: true})
+        this.setState({heightPC: "84%"})
+        this.setState({messageFinish: <div style={{height:"4%", backgroundColor:"#4ECB0F", color:"white"}}>Thank you very much for having finished your work.</div>})
+      }else{
+        this.setState({finishJob: false})
+        this.setState({heightPC: "88%"})
+        this.setState({messageFinish: <div/>})
+      };
+      //verificando si ya termino
+      var arrayPost0 = []
+      for (let i = 0; i < userFs.PostAndCategory.Post.length; i++) { 
+        if(Number(userFs.PostAndCategory.Post[i].category) === 0){ arrayPost0.push(i) };
+      };
+      var user = userFs
+      if(arrayPost0.length === 0){
+        user.UserState = "finished"
+        refUserFinish.set(user)
+      }else{
+        user.UserState = "working"
+        refUserFinish.set(user)
       };
     });
   };
 
   finishWork() {
-    const refUserFinish = dbUser.ref("Users/"+this.props.numberUser+"/User");
-    var arrayPost0 = []
-    for (let i = 0; i < this.state.post.length; i++) { 
-      if(Number(this.state.post[i].category) === 0){ arrayPost0.push(i) };
-    };
-    if(arrayPost0.length === 0){
-      this.setState({finishJobM: 2})
-      this.setState({heightPC: "84%"})
-      let user = this.state.userFs
-      user.UserState = "finished"
-      refUserFinish.set(user);
-      this.setState({fJob: false}) 
-    }else{
-      this.setState({finishJobM: 1})
-      this.setState({heightPC: "84%"})
-      let user = this.state.userFs
-      user.UserState = "working"
-      refUserFinish.set(user);
-      this.setState({fJob: false}) 
-    }
+    this.setState({heightPC: "84%"})
+    this.setState({messageFinish: <div style={{height:"4%", backgroundColor:"#E82704", color:"white"}}>You have not finished Categorizing the Posts yet.</div>})
   };
 
   render() {
-    var finishM = <div/>
-    var finishConstante = <div/>
-  
-    if(this.state.finishJobM === 0){
-      finishM= <div/>
-    }else if(this.state.finishJobM === 1){
-      finishM= <div style={{height:"4%", backgroundColor:"#E82704", color:"white"}}>Aun no has Terminado de Categorizar los Comentarios.</div>
-    }else if(this.state.finishJobM === 2){
-      finishM= <div style={{height:"4%", backgroundColor:"#4ECB0F", color:"white"}}>Felicidades, ya has termiando tu Trabajo.</div>
-    };
-
-    if(this.state.fJob){
-      finishConstante= <div style={{height:"6%", backgroundColor:"yellow", color:"black", paddingTop:"6px"}}>Muchas gracias por haber termiando tu trabajo.</div>
-    };
+    var theFunction = this.finishWork.bind(this);
+    if(this.state.finishJob){
+      theFunction = this.props.change
+    }
 
     return (
       <div style={{height:"92%", textAlign:"center"}}>
-        {finishConstante}
-        {finishM}
+      {this.state.messageFinish}
         <div className="DivPostCategory" style={{height:this.state.heightPC, maxHeight:this.state.heightPC}}>
           <div className="titleList">
             <li style={{width:"4%", maxWidth:"4%"}}>No.</li>
@@ -115,8 +102,8 @@ class PostAndCategory extends Component {
                       };
                       this.setState({post: newPost});
                       refUserPost.set(newPost);
-                      this.setState({finishJobM: 0});
-                      this.setState({fJob: false});
+                      this.setState({messageFinish:<div/>}); 
+                      this.setState({heightPC: "88%"});
                       let user = this.state.userFs
                       user.UserState = "working"
                       user.PostAndCategory.Post = newPost
@@ -129,7 +116,7 @@ class PostAndCategory extends Component {
             )
           })}
         </div>
-        <button onClick={this.finishWork.bind(this)} className="payButton">Terminar Trabajo</button>
+        <button onClick={theFunction} className="payButton">Finish Work</button>
       </div>
     );
   }
