@@ -20,7 +20,7 @@ class StartInterface  extends Component {
     componentDidMount(){
         refAllUsers.on("value", (snapshot) => {
             let AllUsers = snapshot.val();
-            let listOfUsers = AllUsers.map(val => {return val.User.UserInfo.Username})
+            let listOfUsers = AllUsers.map(val => {return val.UserInfo.Username})
             this.setState({allUsers : AllUsers})
             this.setState({listUsers: listOfUsers})
         });

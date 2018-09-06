@@ -17,7 +17,7 @@ class PostAndCategory extends Component {
   }
 
   componentDidMount() {
-    const refUserPost = dbUser.ref("Users/"+this.props.numberUser+"/User/PostAndCategory/Post");    
+    const refUserPost = dbUser.ref("Users/"+this.props.numberUser+"/PostAndCategory/Post");    
     refUserPost.on("value", (snapshot) => {
       let posts = snapshot.val();
       this.setState({post : posts})
@@ -29,13 +29,13 @@ class PostAndCategory extends Component {
       // refUserPost.set(arrayxx);
     });
 
-    const refUserCategory = dbUser.ref("Users/"+this.props.numberUser+"/User/PostAndCategory/Category");
+    const refUserCategory = dbUser.ref("Users/"+this.props.numberUser+"/PostAndCategory/Category");
     refUserCategory.on("value", (snapshot) => {
       let category = snapshot.val();
       this.setState({category : category})
     });
 
-    const refUserFinish = dbUser.ref("Users/"+this.props.numberUser+"/User");
+    const refUserFinish = dbUser.ref("Users/"+this.props.numberUser);
     refUserFinish.on("value", (snapshot) => {
       let userFs = snapshot.val();
       this.setState({userFs: userFs})
@@ -92,7 +92,7 @@ class PostAndCategory extends Component {
                 <li style={{width:"16%", maxWidth:"16%", padding:"0"}}>
                   {<SelectForCategory id={ind} listCategory={this.state.category} categoryValue={this.state.value[ind]}
                     handleChange={(event) =>{
-                      const refUserPost = dbUser.ref("Users/"+this.props.numberUser+"/User/PostAndCategory/Post");
+                      const refUserPost = dbUser.ref("Users/"+this.props.numberUser+"/PostAndCategory/Post");
                       let newValue = this.state.value.slice();
                       newValue[ind] = event.target.value;
                       //save in firebase
@@ -107,7 +107,7 @@ class PostAndCategory extends Component {
                       let user = this.state.userFs
                       user.UserState = "working"
                       user.PostAndCategory.Post = newPost
-                      const refUserFinish = dbUser.ref("Users/"+this.props.numberUser+"/User");
+                      const refUserFinish = dbUser.ref("Users/"+this.props.numberUser);
                       refUserFinish.set(user);
                     }}
                   />}

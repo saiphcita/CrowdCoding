@@ -10,7 +10,7 @@ class WorkerPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      statePage: 0
+      statePage: 1
     };
   }
 
