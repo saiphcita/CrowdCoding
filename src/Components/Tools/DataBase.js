@@ -29,7 +29,7 @@ refAllUsers.on("value", (snapshot) => {
     for (let i = 0; i < users.length; i++) {
         var seleccted = [];
         for (let j = 0; j < users[i].PostAndCategory.Post.length; j++) {
-            if(Number(users[i].PostAndCategory.Post[j].category) !== 0){
+            if(users[i].PostAndCategory.Post[j].category !== "Select Category"){
                 seleccted.push(users[i].PostAndCategory.Post[j].category)
             };
         };
