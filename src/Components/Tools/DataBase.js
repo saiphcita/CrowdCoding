@@ -27,23 +27,17 @@ refAllUsers.on("value", (snapshot) => {
     let users = snapshot.val();
     var infoCosole = [];
     for (let i = 0; i < users.length; i++) {
-        var postArray = [];
         var seleccted = [];
         for (let j = 0; j < users[i].PostAndCategory.Post.length; j++) {
-            var infoPost = {
-                "1-post": users[i].PostAndCategory.Post[j].post, 
-                "2-category":  users[i].PostAndCategory.Category[users[i].PostAndCategory.Post[j].category]
-            };
-            postArray.push(infoPost);
             if(Number(users[i].PostAndCategory.Post[j].category) !== 0){
                 seleccted.push(users[i].PostAndCategory.Post[j].category)
             };
         };
         var infoArray = {
-            "1-Trabajador": users[i].UserInfo.Username,
-            "2-Post": postArray,
-            "3-Seleccionados": seleccted.length+ " de 185",
-            "4-Estado": users[i].UserState
+            "1-Worker": users[i].UserInfo.Username,
+            "2-Post": users[i].PostAndCategory.Post,
+            "3-Selected": seleccted.length+ " of "+users[i].PostAndCategory.Post.length,
+            "4-State": users[i].UserState
         };
         infoCosole.push(infoArray);
     };
