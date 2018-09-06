@@ -22,7 +22,7 @@ var dbUser = db
 export { refGeneralCategory, refGeneralPosts, refAllUsers, dbUser}
 
 //extrallendo la informacion para Norma.
-var refJsonNorma = db.ref("JsonNorma");
+var refReport = db.ref("Report");
 refAllUsers.on("value", (snapshot) => {
     let users = snapshot.val();
     var infoCosole = [];
@@ -47,5 +47,5 @@ refAllUsers.on("value", (snapshot) => {
         };
         infoCosole.push(infoArray);
     };
-    refJsonNorma.set(infoCosole)
+    refReport.set(infoCosole)
 });
