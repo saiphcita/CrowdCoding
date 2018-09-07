@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 
-import Instrucciones  from '../Components/Instrucciones.js'
-import NavBar  from '../Components/NavBar.js'
-import AsideBar  from '../Components/AsideBar.js'
-import PostAndCategory  from '../Components/PostAndCategory.js'
-import PagePay  from '../Components/PagePay.js'
+import Instrucciones  from './Tools/Instrucciones.js'
+import NavBar  from './Tools/NavBar.js'
+import AsideBar  from './Tools/AsideBar.js'
+import PostAndCategory  from './Tools/PostAndCategory.js'
+import PagePay  from './Tools/PagePay.js'
 
 class WorkerPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      statePage: 1
+      statePage: 0
     };
   }
 
@@ -23,7 +23,7 @@ class WorkerPage extends Component {
     if(this.state.statePage === 0){
       Page = <Instrucciones button={<button onClick={this.changeState.bind(this)}>Entendido</button>}/>
     }else if(this.state.statePage === 1){
-      Page = <div style={{height:"100%"}}><NavBar numberUser={this.props.user}/><AsideBar/><PostAndCategory numberUser={this.props.user}  change={this.changeState2.bind(this)}/></div>
+      Page = <div style={{height:"100%"}}><NavBar/><AsideBar/><PostAndCategory numberUser={this.props.user}  change={this.changeState2.bind(this)}/></div>
     }else if(this.state.statePage === 2){
       Page = <div style={{height:"100%"}}><PagePay numberUser={this.props.user}/></div>
     };

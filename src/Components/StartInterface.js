@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import './Start-interface.css';
-import { refAllUsers, refGeneralPosts, refGeneralCategory } from '../Components/Tools/DataBase.js'
-import LogIn  from '../Components/Login-SignUp/Login.js'
-import SignUp  from '../Components/Login-SignUp/SignUp.js'
+import './CSS/StartInterface.css';
+import { refAllUsers, refGeneralPosts, refGeneralCategory } from './Tools/DataBase.js'
+import LogIn  from './Login-SignUp/Login.js'
+import SignUp  from './Login-SignUp/SignUp.js'
 
 
 class StartInterface  extends Component {
@@ -30,14 +30,17 @@ class StartInterface  extends Component {
         });
         refGeneralPosts.on("value", (snapshot) => {
             let posts = snapshot.val();
-            posts = posts.map(i => { return {"category": 0, "post": i }})
+            posts = posts.map(i => { return {"category": "Select Category", "post": i }})
             this.setState({posts : posts})
         });
         refGeneralCategory.on("value", (snapshot) => {
             let categorys = snapshot.val();
             categorys = categorys.map(i => i.categoryName)
-            categorys.unshift("Select Category")
-            this.setState({categorys : categorys})
+            var objectCategorys = {}
+            for(let i=0; i < categorys.length; i++){
+                objectCategorys[categorys[i]] = 0
+            }
+            this.setState({categorys : objectCategorys})
         });
         setTimeout(()=> {
             this.setState({pageTimeLoad: true})
