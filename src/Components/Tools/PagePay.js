@@ -11,8 +11,8 @@ class PagePay extends React.Component {
 componentDidMount() {
   refAllUsers.on("value", (snapshot) => {
     let AllUsers = snapshot.val();
-    const refUserInfo = dbUser.ref("Users/"+this.props.numberUser+"/User");
-    var allNumberPay = AllUsers.map(val => val.User.UserInfo.NumberPay)
+    const refUserInfo = dbUser.ref("Users/"+this.props.numberUser);
+    var allNumberPay = AllUsers.map(val => val.UserInfo.NumberPay)
     var GetRandomNumber = (min, max) => {
       var numberRandom = Math.floor(Math.random() * (max - min) + min)
       if(!allNumberPay.includes(numberRandom)){
@@ -21,15 +21,15 @@ componentDidMount() {
         return numberRandom = Math.floor(Math.random() * (max - min) + min)
       }
     }
-    if(AllUsers[this.props.numberUser].User.UserInfo.NumberPay === undefined){
-      if(AllUsers[this.props.numberUser].User.UserState === "finished"){
-        var newUserInfo = AllUsers[this.props.numberUser].User
+    if(AllUsers[this.props.numberUser].UserInfo.NumberPay === undefined){
+      if(AllUsers[this.props.numberUser].UserState === "finished"){
+        var newUserInfo = AllUsers[this.props.numberUser]
         var numberPay = GetRandomNumber(10000000, 99999999)
         newUserInfo.UserInfo.NumberPay = numberPay
         refUserInfo.set(newUserInfo)
       }
     }
-    this.setState({numberPay: AllUsers[this.props.numberUser].User.UserInfo.NumberPay})
+    this.setState({numberPay: AllUsers[this.props.numberUser].UserInfo.NumberPay})
   });
 };
 
