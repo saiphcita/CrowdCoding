@@ -12,7 +12,11 @@ class StartInterface  extends Component {
             color1: "#3C3B47",
             color2: "#3C3B47",
             pageTimeLoad: false,
-            StatePage: <div className="divStatePage"><h2>Create a Worker ID to enter the work page and if you already have it, you can login.</h2></div>,
+            StatePage: 
+                    <div className="divStatePage">
+                        <h2>Create a Worker ID to enter the work page and if you already have it, you can login.</h2><br/>
+                        <p>Remember, your Worker ID of this Interface(1) only Works on this and Not on the Other Interfaces.</p>
+                    </div>,
             listUsers: []
         };
       }
@@ -86,7 +90,7 @@ class StartInterface  extends Component {
 
         return (
             <div style={{textAlign:"center", height:"100%", backgroundColor:"#F2F4F4"}}>
-                <h3 style={{paddingTop:"18px"}}>Welcome to WokerPage</h3>
+                <h3 style={{paddingTop:"18px"}}>Welcome to WokerPage-1</h3>
                 <div className="DivForm">
                     {pageLoad}
                     {this.state.StatePage}
