@@ -80,8 +80,8 @@ class PostAndCategory extends Component {
         <div className="DivPostCategory" style={{height:this.state.heightPC, maxHeight:this.state.heightPC}}>
           <div className="titleList">
             <li style={{width:"4%", maxWidth:"4%"}}>No.</li>
-            <li style={{width:"80%", maxWidth:"80%"}}>Comentario</li>
-            <li style={{width:"16%", maxWidth:"16%"}}>Categoría</li>
+            <li style={{width:"80%", maxWidth:"80%"}}>Post</li>
+            <li style={{width:"16%", maxWidth:"16%"}}>Category</li>
           </div>
           {this.state.post.map((val, ind) =>{
             //esto es Select Category y Estadistica

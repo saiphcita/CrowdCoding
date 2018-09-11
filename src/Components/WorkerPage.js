@@ -21,7 +21,7 @@ class WorkerPage extends Component {
     var Page = <div/>
 
     if(this.state.statePage === 0){
-      Page = <Instrucciones button={<button onClick={this.changeState.bind(this)}>Entendido</button>}/>
+      Page = <Instrucciones button={<button onClick={this.changeState.bind(this)}>Go Ahead</button>}/>
     }else if(this.state.statePage === 1){
       Page = <div style={{height:"100%"}}><NavBar/><AsideBar/><PostAndCategory numberUser={this.props.user}  change={this.changeState2.bind(this)}/></div>
     }else if(this.state.statePage === 2){

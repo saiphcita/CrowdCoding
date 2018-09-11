@@ -13,7 +13,7 @@ class Instrucciones extends React.Component {
       <div style={{textAlign:"center"}}>
           <header style={{backgroundColor:"black", color:"white", padding:"10px"}}>
             <h3>
-              Instrucciones
+              Instructions
             </h3>
           </header>
           <div className="ListInstruccion">
