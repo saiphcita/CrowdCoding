@@ -17,9 +17,9 @@ class Instrucciones extends React.Component {
             </h3>
           </header>
           <div className="ListInstruccion">
-            <p>We are studying how people think about cryptocurrencies and their incidence as a tool for governments around the world.</p>
+            <p>We are studying how people think about cryptocurrencies and Blockchain as a tool for the Governments and Society around the world.</p>
             <p>We will give you a list of Posts and you will have to categorize what you think and feel towards that post.</p>
-            <p>Objective: categorize each Post with one of the following categories.</p>
+            <p>Objective: Categorize each Post with one of the following categories.</p>
           </div>
           <div style={{display:"inline-block"}}>
               <ListCategory/>
