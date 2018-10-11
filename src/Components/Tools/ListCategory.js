@@ -21,16 +21,14 @@ class ListCategory extends React.Component {
     return (
         <div className="DivDefinition2">
           <div className="titleList2">
-            <li style={{width:"12%", maxWidth:"12%"}}>Category</li>
-            <li style={{width:"50%", maxWidth:"50%"}}>Description</li>
-            <li style={{width:"38%", maxWidth:"38%"}}>Example</li>
+            <li style={{width:"15%", maxWidth:"15%"}}>Category</li>
+            <li style={{width:"85%", maxWidth:"85%"}}>Description</li>
           </div>
           {this.state.category.map((val, ind) =>{
             return (
               <div key={ind} className="Clist">
-                <li key={ind} style={{width:"12%", maxWidth:"12%"}}>{val.categoryName}</li>
-                <li key={val.post} style={{width:"50%", maxWidth:"50%"}}>{val.categoryDefinition}</li>
-                <li style={{width:"38%", maxWidth:"38%"}}>{val.categoryExample}</li>
+                <li key={ind} style={{width:"15%", maxWidth:"15%"}}>{val.categoryName}</li>
+                <li key={val.post} style={{width:"85%", maxWidth:"85%"}}>{val.categoryDefinition}</li>
               </div>
             )
           })}
