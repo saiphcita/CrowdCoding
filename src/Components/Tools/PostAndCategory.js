@@ -80,8 +80,8 @@ class PostAndCategory extends Component {
         <div className="DivPostCategory" style={{height:this.state.heightPC, maxHeight:this.state.heightPC}}>
           <div className="titleList">
             <li style={{width:"4%", maxWidth:"4%"}}>No.</li>
-            <li style={{width:"80%", maxWidth:"80%"}}>Post</li>
-            <li style={{width:"16%", maxWidth:"16%"}}>Category</li>
+            <li style={{width:"76%", maxWidth:"76%"}}>Post</li>
+            <li style={{width:"20%", maxWidth:"20%"}}>Category</li>
           </div>
           {this.state.post.map((val, ind) =>{
             //esto es Select Category y Estadistica
@@ -94,8 +94,8 @@ class PostAndCategory extends Component {
             return (
               <div key={ind} className="NCClist">
                 <li key={ind} style={{width:"4%", maxWidth:"4%", textAlign:"center", padding:"0"}}>{ind+1}</li>
-                <li key={val.post} style={{width:"80%", maxWidth:"80%"}}>{val.post}</li>
-                <li style={{width:"16%", maxWidth:"16%", padding:"0"}}>
+                <li key={val.post} style={{width:"76%", maxWidth:"76%"}}>{val.post}</li>
+                <li style={{width:"20%", maxWidth:"20%", padding:"0"}}>
                 {<SelectForCategory id={ind} listCategory={todasLasCategorias} categoryValue={this.state.post[ind].category}
                       handleChange={(event) =>{
                         refUserCategorySelected.set(event.target.value)
