@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../CSS/PostAndCategory.css';
 import SelectForCategory  from './SelectForCategory.js'
-import { dbUser, refAllUsers } from './DataBase.js'
+import { dbUser } from './DataBase.js'
 
 class PostAndCategory extends Component {
   constructor(props) {
@@ -26,12 +26,6 @@ class PostAndCategory extends Component {
     refUserCategory.on("value", (snapshot) => {
       let category = snapshot.val();
       this.setState({category : category})
-    });
-
-    refAllUsers.on("value", (snapshot) => {
-      let AllUsers = snapshot.val();
-      let PostOfUser = AllUsers.map( val => val.PostAndCategory.Post)
-      this.setState({PostOfUser: PostOfUser})
     });
 
     const refUserFinish = dbUser.ref("Users/"+this.props.numberUser);
@@ -74,6 +68,11 @@ class PostAndCategory extends Component {
       theFunction = this.props.change
     }
 
+    //Lista de categorias en cada Post
+    var todasLasCategorias = this.state.category
+    todasLasCategorias = Object.keys(todasLasCategorias).map((val)=>{return val})
+    todasLasCategorias.unshift("Select Category")
+
     return (
       <div style={{height:"92%", textAlign:"center"}}>
       {this.state.messageFinish}
@@ -84,14 +83,13 @@ class PostAndCategory extends Component {
             <li style={{width:"20%", maxWidth:"20%"}}>Category</li>
           </div>
           {this.state.post.map((val, ind) =>{
-            //esto es Select Category y Estadistica
-            var todasLasCategorias = this.state.category
-            todasLasCategorias = Object.keys(todasLasCategorias).map((val)=>{return val})
-            todasLasCategorias.unshift("Select Category")
+            //Aqui se guardaran cada Dato al usar el SELECTCATEGORY
             const refUserCategorySelected = dbUser.ref("Users/"+this.props.numberUser+"/PostAndCategory/Post/"+ind+"/category/")
             const refUserCategoryTime = dbUser.ref("Users/"+this.props.numberUser+"/PostAndCategory/Post/"+ind+"/time/")
+            const refUserCategoryHistory = dbUser.ref("Users/"+this.props.numberUser+"/PostAndCategory/Post/"+ind+"/history/")
             const refUserSate= dbUser.ref("Users/"+this.props.numberUser+"/UserState")
-            //Aqui termina lo de Select Category y Estadistica
+            //
+            var newHistory = val.history
             return (
               <div key={ind} className="NCClist">
                 <li key={ind} style={{width:"4%", maxWidth:"4%", textAlign:"center", padding:"0"}}>{ind+1}</li>
@@ -99,11 +97,18 @@ class PostAndCategory extends Component {
                 <li style={{width:"20%", maxWidth:"20%", padding:"0"}}>
                 {<SelectForCategory id={ind} listCategory={todasLasCategorias} categoryValue={this.state.post[ind].category}
                       handleChange={(event) =>{
-                        refUserCategorySelected.set(event.target.value)
+                        event.preventDefault()
                         this.setState({messageFinish: <div/>});
                         this.setState({heightPC: "88%"});
+                        //CAMBIO DE CATEGORIA
+                        refUserCategorySelected.set(event.target.value)
+                        //CAMBIO DE TIEMPO
                         refUserCategoryTime.set(this.props.timing)
+                        //CAMBIAR EL ESTADO A WORKING
                         refUserSate.set("working")
+                        //AGREGAR EL CAMBIO AL HISTORIAL
+                        newHistory.push([event.target.value, this.props.timing])
+                        refUserCategoryHistory.set(newHistory)
                       }}
                   />}
                 </li>
