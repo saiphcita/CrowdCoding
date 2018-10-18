@@ -89,6 +89,7 @@ class PostAndCategory extends Component {
             todasLasCategorias = Object.keys(todasLasCategorias).map((val)=>{return val})
             todasLasCategorias.unshift("Select Category")
             const refUserCategorySelected = dbUser.ref("Users/"+this.props.numberUser+"/PostAndCategory/Post/"+ind+"/category/")
+            const refUserCategoryTime = dbUser.ref("Users/"+this.props.numberUser+"/PostAndCategory/Post/"+ind+"/time/")
             const refUserSate= dbUser.ref("Users/"+this.props.numberUser+"/UserState")
             //Aqui termina lo de Select Category y Estadistica
             return (
@@ -101,6 +102,7 @@ class PostAndCategory extends Component {
                         refUserCategorySelected.set(event.target.value)
                         this.setState({messageFinish: <div/>});
                         this.setState({heightPC: "88%"});
+                        refUserCategoryTime.set(this.props.timing)
                         refUserSate.set("working")
                       }}
                   />}
